@@ -25,7 +25,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- PLUGINS CONFIG --
 require('lazy').setup({
-	{ 'folke/which-key.nvim', opts = {} },
+	{ 'folke/which-key.nvim',  opts = {} },
 	{ 'numToStr/Comment.nvim', opts = {} },
 	{
 		'nvim-tree/nvim-tree.lua',
@@ -82,7 +82,7 @@ require('lazy').setup({
 
 			-- Useful status updates for LSP
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-			{ 'j-hui/fidget.nvim', opts = {} },
+			{ 'j-hui/fidget.nvim',       opts = {} },
 
 			-- Additional lua configuration, makes nvim stuff amazing!
 			'folke/neodev.nvim',
@@ -117,112 +117,106 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- KEYMAP CONFIG --
 -- [[
--- mode = { leader = { prefix = { key = { command, desc } } } } 
+-- mode = { leader = { prefix = { key = { command, desc } } } }
 -- ]]
-local whichKeyMappings = {
-	n = {
-	},
+local keymaps = {
+	n = {}
 }
 
-local function bindKey(binding, command, opts)
-	opts = opts or { mode = 'n', silent = true, desc = '', noremap = true }
-	opts.mode = opts.mode or 'n'
-	local config = {}
-	config.silent = opts.silent or true
-	config.desc = opts.desc or ''
-	config.noremap = opts.noremap or true
-	vim.keymap.set(opts.mode, binding, command, config)
-end
-
+local groups = {
+	f = { desc = " Find" },
+	p = { desc = '󰏓 Manage Packages' },
+	l = { desc = ' LSP' },
+	u = { desc = ' UI' },
+	b = { desc = '󰓩 Buffers' },
+	d = { desc = ' Debugger' },
+	t = { desc = ' Terminal' },
+}
 
 -- Telescope
 local builtin = require('telescope.builtin')
-whichKeyMappings.n['<leader>'] = {};
-whichKeyMappings.n['<leader>'].f = {
-	desc = "Telescope",
-	f = { builtin.find_files, "Find Files" },
-	g = { builtin.live_grep, "Live Grep" },
-	b = { builtin.buffers, 'Find Buffers' },
-	h = { builtin.help_tags, 'Help Tags' }
-}
+keymaps.n['<leader>'] = {}
+groups.f['f'] = { builtin.find_files, "Find Files" }
+groups.f['g'] = { builtin.live_grep, "Live Grep" }
+groups.f['b'] = { builtin.buffers, 'Find Buffers' }
+groups.f['h'] = { builtin.help_tags, 'Help Tags' }
+keymaps.n['<leader>'].f = groups.f
 
--- NvimTree 
-whichKeyMappings.n['<leader>'].e = { '<cmd>NvimTreeToggle<cr>', 'Toggle NvimTree' }
-whichKeyMappings.n['<leader>'].o = { '<cmd>NvimTreeFocus<cr>', 'Focus NvimTree' }
+-- NvimTree
+keymaps.n['<leader>'].e = { '<cmd>NvimTreeToggle<cr>', '󱏒 Toggle NvimTree' }
 
-require('which-key').register(whichKeyMappings.n)
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
-  require('nvim-treesitter.configs').setup {
-    -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+	require('nvim-treesitter.configs').setup {
+		-- Add languages to be installed here that you want installed for treesitter
+		ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
 
-    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-    auto_install = false,
+		-- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
+		auto_install = false,
 
-    highlight = { enable = true },
-    indent = { enable = true },
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = '<c-space>',
-        node_incremental = '<c-space>',
-        scope_incremental = '<c-s>',
-        node_decremental = '<M-space>',
-      },
-    },
-    textobjects = {
-      select = {
-        enable = true,
-        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-        keymaps = {
-          -- You can use the capture groups defined in textobjects.scm
-          ['aa'] = '@parameter.outer',
-          ['ia'] = '@parameter.inner',
-          ['af'] = '@function.outer',
-          ['if'] = '@function.inner',
-          ['ac'] = '@class.outer',
-          ['ic'] = '@class.inner',
-        },
-      },
-      move = {
-        enable = true,
-        set_jumps = true, -- whether to set jumps in the jumplist
-        goto_next_start = {
-          [']m'] = '@function.outer',
-          [']]'] = '@class.outer',
-        },
-        goto_next_end = {
-          [']M'] = '@function.outer',
-          [']['] = '@class.outer',
-        },
-        goto_previous_start = {
-          ['[m'] = '@function.outer',
-          ['[['] = '@class.outer',
-        },
-        goto_previous_end = {
-          ['[M'] = '@function.outer',
-          ['[]'] = '@class.outer',
-        },
-      },
-      swap = {
-        enable = true,
-        swap_next = {
-          ['<leader>a'] = '@parameter.inner',
-        },
-        swap_previous = {
-          ['<leader>A'] = '@parameter.inner',
-        },
-      },
-    },
-  }
+		highlight = { enable = true },
+		indent = { enable = true },
+		incremental_selection = {
+			enable = true,
+			keymaps = {
+				init_selection = '<c-space>',
+				node_incremental = '<c-space>',
+				scope_incremental = '<c-s>',
+				node_decremental = '<M-space>',
+			},
+		},
+		textobjects = {
+			select = {
+				enable = true,
+				lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+				keymaps = {
+					-- You can use the capture groups defined in textobjects.scm
+					['aa'] = '@parameter.outer',
+					['ia'] = '@parameter.inner',
+					['af'] = '@function.outer',
+					['if'] = '@function.inner',
+					['ac'] = '@class.outer',
+					['ic'] = '@class.inner',
+				},
+			},
+			move = {
+				enable = true,
+				set_jumps = true, -- whether to set jumps in the jumplist
+				goto_next_start = {
+					[']m'] = '@function.outer',
+					[']]'] = '@class.outer',
+				},
+				goto_next_end = {
+					[']M'] = '@function.outer',
+					[']['] = '@class.outer',
+				},
+				goto_previous_start = {
+					['[m'] = '@function.outer',
+					['[['] = '@class.outer',
+				},
+				goto_previous_end = {
+					['[M'] = '@function.outer',
+					['[]'] = '@class.outer',
+				},
+			},
+			swap = {
+				enable = true,
+				swap_next = {
+					['<leader>a'] = '@parameter.inner',
+				},
+				swap_previous = {
+					['<leader>A'] = '@parameter.inner',
+				},
+			},
+		},
+	}
 end, 0)
 
 -- Oil
-bindKey('-', '<CMD>Oil<CR>', { desc = "Oil open parent dir" })
+keymaps.n['-'] = { '<cmd>Oil<cr>', '󰏇 Open Parent Dir in Oil' }
 
 -- ToggleTerm
 require("toggleterm").setup {}
@@ -232,8 +226,9 @@ function lazygit_toggle()
 	lazygit:toggle()
 end
 
-bindKey('<leader>tl', '<cmd>lua lazygit_toggle()<cr>', { desc = 'ToggleTerm lazygit' })
-bindKey('<leader>tf', '<cmd>ToggleTerm direction=float<cr>', { desc = 'ToggleTerm float' })
+groups.t['l'] = { '<cmd>lua lazygit_toggle()<cr>', 'ToggleTerm lazygit' }
+groups.t['f'] = { '<cmd>ToggleTerm direction=float<cr>', 'ToggleTerm float' }
+keymaps.n['<leader>'].t = groups.t
 
 -- [[ Configure LSP ]]
 -- Mason
@@ -249,49 +244,25 @@ local servers = {
 	}
 }
 
---  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(_, bufnr)
-  -- NOTE: Remember that lua is a real programming language, and as such it is possible
-  -- to define small helper and utility functions so you don't have to repeat yourself
-  -- many times.
-  --
-  -- In this case, we create a function that lets us more easily define mappings specific
-  -- for LSP related items. It sets the mode, buffer and description for us each time.
-  local nmap = function(keys, func, desc)
-    if desc then
-      desc = 'LSP: ' .. desc
-    end
+local on_attach = function(_)
+	groups.l['r'] = { vim.lsp.buf.rename, 'LSP Rename' }
+	groups.l['a'] = { vim.lsp.buf.code_action, 'Code Action' }
+	groups.l['f'] = { vim.lsp.buf.format, 'Format Buffer' }
+	keymaps.n['gd'] = { vim.lsp.buf.definition, 'Goto Definition' }
+	keymaps.n['gr'] = { require('telescope.builtin').lsp_references, 'Goto References' }
+	keymaps.n['gI'] = { require('telescope.builtin').lsp_implementations, 'Goto Implementation' }
+	groups.l['T'] = { require('telescope.builtin').lsp_type_definitions, 'Type Definition' }
+	groups.l['s'] = { require('telescope.builtin').lsp_document_symbols, 'Document Symbols' }
+	groups.l['w'] = { require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace Symbols' }
 
-    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-  end
+	keymaps.n['K'] = { vim.lsp.buf.hover, 'Hover Documentation' }
+	groups.l['h'] = { vim.lsp.buf.signature_help, 'Signature Documentation' }
 
-  nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-  nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+	-- Lesser used LSP functionality
+	keymaps.n['gD'] = { vim.lsp.buf.declaration, 'Goto Declaration' }
 
-  nmap('<leader>lf', vim.lsp.buf.format, 'Format Buffer')
-  nmap('gd', vim.lsp.buf.definition,'[G]oto [D]efinition')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-  nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-  nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-  nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-
-  -- See `:help K` for why this keymap
-  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
-
-  -- Lesser used LSP functionality
-  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  nmap('<leader>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, '[W]orkspace [L]ist Folders')
-
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
-  end, { desc = 'Format current buffer with LSP' })
+	keymaps.n['<leader>'].l = groups.l
+	require('which-key').register(keymaps.n)
 end
 
 -- Neodev
@@ -312,75 +283,77 @@ require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
 mason_lspconfig.setup_handlers {
-  function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-      filetypes = (servers[server_name] or {}).filetypes,
-    }
-  end,
+	function(server_name)
+		require('lspconfig')[server_name].setup {
+			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = servers[server_name],
+			filetypes = (servers[server_name] or {}).filetypes,
+		}
+	end,
 }
 
 cmp.setup {
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  completion = {
-    completeopt = 'menu,menuone,noinsert',
-  },
-  mapping = cmp.mapping.preset.insert {
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete {},
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_locally_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.locally_jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-  },
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-    { name = 'path' },
-  },
+	snippet = {
+		expand = function(args)
+			luasnip.lsp_expand(args.body)
+		end,
+	},
+	completion = {
+		completeopt = 'menu,menuone,noinsert',
+	},
+	mapping = cmp.mapping.preset.insert {
+		['<C-n>'] = cmp.mapping.select_next_item(),
+		['<C-p>'] = cmp.mapping.select_prev_item(),
+		['<C-b>'] = cmp.mapping.scroll_docs(-4),
+		['<C-f>'] = cmp.mapping.scroll_docs(4),
+		['<C-Space>'] = cmp.mapping.complete {},
+		['<CR>'] = cmp.mapping.confirm {
+			behavior = cmp.ConfirmBehavior.Replace,
+			select = true,
+		},
+		['<Tab>'] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			elseif luasnip.expand_or_locally_jumpable() then
+				luasnip.expand_or_jump()
+			else
+				fallback()
+			end
+		end, { 'i', 's' }),
+		['<S-Tab>'] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			elseif luasnip.locally_jumpable(-1) then
+				luasnip.jump(-1)
+			else
+				fallback()
+			end
+		end, { 'i', 's' }),
+	},
+	sources = {
+		{ name = 'nvim_lsp' },
+		{ name = 'luasnip' },
+		{ name = 'path' },
+	},
 }
 
 
 -- Vim Built-In Functions
-bindKey('<C-s>', '<cmd>w<cr>', { desc = 'Write' })
-bindKey('<C-q>q', '<cmd>confirm qall<cr>', { desc = 'Confirm Quit All' })
-bindKey('<C-q>w', '<cmd>confirm q<cr>', { desc = 'Confirm Quit Buffer' })
-bindKey('<C-q>f', '<cmd>qa!<cr>', { desc = 'Force Quit' })
-bindKey('|', '<cmd>vsplit<cr>', { desc = 'Vertical Split' })
-bindKey('\\', '<cmd>split<cr>', { desc = 'Horizontal Split' })
-bindKey('<Esc>', '<cmd>noh<cr>', { desc = 'Clear Highlights' })
-bindKey('<C-h>', '<C-w>h', { desc = 'Window Left'})
-bindKey('<C-l>', '<C-w>l', { desc = 'Window Right'})
-bindKey('<C-k>', '<C-w>k', { desc = 'Window Up'})
-bindKey('<C-j>', '<C-w>j', { desc = 'Window Down'})
-bindKey('<C-A-j>', ':t.<cr>k', { desc = 'Copy Line Down' })
-bindKey('<C-A-k>', ':t.<cr>', { desc = 'Copy Line Up' })
-bindKey('<C-S-j>', ':m .+1<cr>', { desc = 'Move Line Down' })
-bindKey('<C-S-k>', ':m .-2<cr>', { desc = 'Move Line Up' })
+keymaps.n['<C-s>'] = { '<cmd>w<cr>', 'Write' }
+keymaps.n['<C-q>q'] = { '<cmd>confirm qall<cr>', 'Confirm Quit All' }
+keymaps.n['<C-q>w'] = { '<cmd>confirm q<cr>', 'Confirm Quit Buffer' }
+keymaps.n['<C-q>f'] = { '<cmd>qa!<cr>', 'Force Quit' }
+keymaps.n['|'] = { '<cmd>vsplit<cr>', 'Vertical Split' }
+keymaps.n['\\'] = { '<cmd>split<cr>', 'Horizontal Split' }
+keymaps.n['<Esc>'] = { '<cmd>noh<cr>', 'Clear Highlights' }
+keymaps.n['<C-h>'] = { '<C-w>h', 'Window Left' }
+keymaps.n['<C-l>'] = { '<C-w>l', 'Window Right' }
+keymaps.n['<C-k>'] = { '<C-w>k', 'Window Up' }
+keymaps.n['<C-j>'] = { '<C-w>j', 'Window Down' }
+keymaps.n['<C-A-j>'] = { ':t.<cr>k', 'Copy Line Down' }
+keymaps.n['<C-A-k>'] = { ':t.<cr>', 'Copy Line Up' }
+keymaps.n['<C-S-j>'] = { ':m .+1<cr>', 'Move Line Down' }
+keymaps.n['<C-S-k>'] = { ':m .-2<cr>', 'Move Line Up' }
+
+require('which-key').register(keymaps.n)
