@@ -102,6 +102,9 @@ require('lazy').setup({
 		'akinsho/toggleterm.nvim',
 		version = '*',
 		config = true
+	},
+	{
+		'mfussenegger/nvim-jdtls'
 	}
 
 })
@@ -142,6 +145,10 @@ whichKeyMappings.n['<leader>'].f = {
 	b = { builtin.buffers, 'Find Buffers' },
 	h = { builtin.help_tags, 'Help Tags' }
 }
+
+-- NvimTree 
+whichKeyMappings.n['<leader>'].e = { '<cmd>NvimTreeToggle<cr>', 'Toggle NvimTree' }
+whichKeyMappings.n['<leader>'].o = { '<cmd>NvimTreeFocus<cr>', 'Focus NvimTree' }
 
 require('which-key').register(whichKeyMappings.n)
 
@@ -261,7 +268,8 @@ local on_attach = function(_, bufnr)
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-  nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+  nmap('<leader>lf', vim.lsp.buf.format, 'Format Buffer')
+  nmap('gd', vim.lsp.buf.definition,'[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
   nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
