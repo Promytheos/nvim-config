@@ -4,29 +4,32 @@ local root_dir = require("jdtls.setup").find_root(root_markers)
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = vim.fn.stdpath "data" .. "/site/java/workspace-root/" .. project_name
 os.execute("mkdir " .. workspace_dir)
+local jdtls = require('jdtls')
 
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
 	-- The command that starts the language server
 	-- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
 	cmd = {
-		'java',
-		'-Declipse.application=org.eclipse.jdt.ls.core.id1',
-		'-Dosgi.bundles.defaultStartLevel=4',
-		'-Declipse.product=org.eclipse.jdt.ls.core.product',
-		'-Dlog.protocol=true',
-		'-Dlog.level=ALL',
+		"java",
+		"-Declipse.application=org.eclipse.jdt.ls.core.id1",
+		"-Dosgi.bundles.defaultStartLevel=4",
+		"-Declipse.product=org.eclipse.jdt.ls.core.product",
+		"-Dlog.protocol=true",
+		"-Dlog.level=ALL",
 		"-javaagent:" .. vim.fn.expand "$MASON/share/jdtls/lombok.jar",
-		'-Xmx1g',
-		'--add-modules=ALL-SYSTEM',
-		'--add-opens', 'java.base/java.util=ALL-UNNAMED',
-		'--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-		'-jar',
-		vim.fn.expand '$MASON/share/jdtls/plugins/org.eclipse.equinox.launcher.jar',
-		'-configuration',
-		vim.fn.expand '$MASON/share/jdtls/config',
-		'-data',
-		workspace_dir
+		"-Xms1g",
+		"--add-modules=ALL-SYSTEM",
+		"--add-opens",
+		"java.base/java.util=ALL-UNNAMED",
+		"--add-opens",
+		"java.base/java.lang=ALL-UNNAMED",
+		"-jar",
+		vim.fn.expand "$MASON/share/jdtls/plugins/org.eclipse.equinox.launcher.jar",
+		"-configuration",
+		vim.fn.expand "$MASON/share/jdtls/config",
+		"-data",
+		workspace_dir,
 	},
 	-- This is the default if not provided, you can remove it. Or adjust as needed.
 	-- One dedicated LSP server & client will be started per unique root_dir
@@ -41,7 +44,25 @@ local config = {
 				downloadSources = true,
 			},
 			configuration = {
-				updateBuildConfiguration = 'interactive'
+				updateBuildConfiguration = 'interactive',
+				runtimes = {
+					{
+						name = "JavaSE-17",
+						path =
+						"/Users/luke.swan/Library/Java/JavaVirtualMachines/corretto-17.0.4.1/Contents/Home/"
+					},
+					{
+						name = "JavaSE-18",
+						path =
+						"/Library/Java/JavaVirtualMachines/jdk-18.0.1.1.jdk/Contents/Home/"
+					},
+					{
+						name = "JavaSE-1.8",
+						path =
+						"/usr/local/Cellar/openjdk@8/1.8.0-392/libexec/openjdk.jdk/Contents/Home/",
+						default = true
+					},
+				},
 			},
 			maven = {
 				downloadSources = true,
@@ -99,4 +120,4 @@ local config = {
 }
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
-require('jdtls').start_or_attach(config)
+jdtls.start_or_attach(config)

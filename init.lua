@@ -86,7 +86,7 @@ require('lazy').setup({
 
 			-- Additional lua configuration, makes nvim stuff amazing!
 			'folke/neodev.nvim',
-		}
+		},
 	},
 	{
 		'lewis6991/gitsigns.nvim'
@@ -105,6 +105,12 @@ require('lazy').setup({
 	},
 	{
 		'mfussenegger/nvim-jdtls'
+	},
+	{
+		'folke/tokyonight.nvim',
+		lazy = false,
+		priority = 1000,
+		opts = {}
 	}
 
 })
@@ -114,6 +120,8 @@ vim.o.undofile = true
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.o.completeopt = 'menuone,noselect'
+vim.wo.signcolumn = 'no'
+vim.cmd[[colorscheme tokyonight-night]]
 
 -- KEYMAP CONFIG --
 -- [[
@@ -152,7 +160,7 @@ keymaps.n['<leader>'].e = { '<cmd>NvimTreeToggle<cr>', '󱏒 Toggle NvimTree' }
 vim.defer_fn(function()
 	require('nvim-treesitter.configs').setup {
 		-- Add languages to be installed here that you want installed for treesitter
-		ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+		ensure_installed = { 'c', 'cpp', 'go', 'java', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
 
 		-- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
 		auto_install = false,
@@ -235,15 +243,6 @@ keymaps.n['<leader>'].t = groups.t
 require("mason").setup()
 require("mason-lspconfig").setup()
 
-local servers = {
-	lua_ls = {
-		Lua = {
-			workspace = { checkThirdParty = false },
-			telemetry = { enable = false }
-		}
-	}
-}
-
 local on_attach = function(_)
 	groups.l['r'] = { vim.lsp.buf.rename, 'LSP Rename' }
 	groups.l['a'] = { vim.lsp.buf.code_action, 'Code Action' }
@@ -262,15 +261,42 @@ local on_attach = function(_)
 	keymaps.n['gD'] = { vim.lsp.buf.declaration, 'Goto Declaration' }
 
 	keymaps.n['<leader>'].l = groups.l
-	require('which-key').register(keymaps.n)
+	require("plugins.mappings").setMappings(keymaps.n)
+	require("plugins.mappings").registerKeymaps()
 end
 
+groups.l['r'] = { vim.lsp.buf.rename, 'LSP Rename' }
+groups.l['a'] = { vim.lsp.buf.code_action, 'Code Action' }
+groups.l['f'] = { vim.lsp.buf.format, 'Format Buffer' }
+keymaps.n['gd'] = { vim.lsp.buf.definition, 'Goto Definition' }
+keymaps.n['gr'] = { require('telescope.builtin').lsp_references, 'Goto References' }
+keymaps.n['gI'] = { require('telescope.builtin').lsp_implementations, 'Goto Implementation' }
+groups.l['T'] = { require('telescope.builtin').lsp_type_definitions, 'Type Definition' }
+groups.l['s'] = { require('telescope.builtin').lsp_document_symbols, 'Document Symbols' }
+groups.l['w'] = { require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace Symbols' }
+
+keymaps.n['K'] = { vim.lsp.buf.hover, 'Hover Documentation' }
+groups.l['h'] = { vim.lsp.buf.signature_help, 'Signature Documentation' }
+
+-- Lesser used LSP functionality
+keymaps.n['gD'] = { vim.lsp.buf.declaration, 'Goto Declaration' }
+
+keymaps.n['<leader>'].l = groups.l
 -- Neodev
 require("neodev").setup()
 
 -- CMP
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+local servers = {
+	lua_ls = {
+		Lua = {
+			workspace = { checkThirdParty = false },
+			telemetry = { enable = false }
+		}
+	}
+}
 
 local mason_lspconfig = require 'mason-lspconfig'
 mason_lspconfig.setup {
@@ -291,6 +317,8 @@ mason_lspconfig.setup_handlers {
 			filetypes = (servers[server_name] or {}).filetypes,
 		}
 	end,
+	['jdtls'] = function()
+	end
 }
 
 cmp.setup {
@@ -356,4 +384,5 @@ keymaps.n['<C-A-k>'] = { ':t.<cr>', 'Copy Line Up' }
 keymaps.n['<C-S-j>'] = { ':m .+1<cr>', 'Move Line Down' }
 keymaps.n['<C-S-k>'] = { ':m .-2<cr>', 'Move Line Up' }
 
-require('which-key').register(keymaps.n)
+require("plugins.mappings").setMappings(keymaps.n)
+require("plugins.mappings").registerKeymaps()
