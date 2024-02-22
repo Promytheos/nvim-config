@@ -25,94 +25,8 @@ vim.opt.rtp:prepend(lazypath)
 
 -- PLUGINS CONFIG --
 require('lazy').setup({
-	{ 'folke/which-key.nvim',  opts = {} },
+	{ import = 'plugins' },
 	{ 'numToStr/Comment.nvim', opts = {} },
-	{
-		'nvim-tree/nvim-tree.lua',
-		version = '*',
-		lazy = false,
-		dependencies = {
-			'nvim-tree/nvim-web-devicons',
-		},
-		config = function()
-			require('nvim-tree').setup {}
-		end,
-	},
-	{
-		'stevearc/oil.nvim',
-		opts = {},
-		dependencies = {
-			'nvim-tree/nvim-web-devicons'
-		}
-	},
-	{
-		'nvim-telescope/telescope.nvim',
-		branch = '0.1.x',
-		dependencies = { 'nvim-lua/plenary.nvim' }
-	},
-	{
-		'hrsh7th/nvim-cmp',
-		dependencies = {
-			-- Snippet Engine & its associated nvim-cmp source
-			'L3MON4D3/LuaSnip',
-			'saadparwaiz1/cmp_luasnip',
-
-			-- Adds LSP completion capabilities
-			'hrsh7th/cmp-nvim-lsp',
-			'hrsh7th/cmp-path',
-
-			-- Adds a number of user-friendly snippets
-			'rafamadriz/friendly-snippets',
-		},
-	},
-	{
-		-- Highlight, edit, and navigate code
-		'nvim-treesitter/nvim-treesitter',
-		dependencies = {
-			'nvim-treesitter/nvim-treesitter-textobjects',
-		},
-		build = ':TSUpdate',
-	},
-	{
-		'neovim/nvim-lspconfig',
-		dependencies = {
-			-- Automatically install LSPs to stdpath for neovim
-			{ 'williamboman/mason.nvim', config = true },
-			'williamboman/mason-lspconfig.nvim',
-
-			-- Useful status updates for LSP
-			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-			{ 'j-hui/fidget.nvim',       opts = {} },
-
-			-- Additional lua configuration, makes nvim stuff amazing!
-			'folke/neodev.nvim',
-		},
-	},
-	{
-		'lewis6991/gitsigns.nvim'
-	},
-	{
-		'nvim-lualine/lualine.nvim',
-		dependencies = { 'nvim-tree/nvim-web-devicons' },
-		opts = {
-			options = { theme = 'horizon' }
-		}
-	},
-	{
-		'akinsho/toggleterm.nvim',
-		version = '*',
-		config = true
-	},
-	{
-		'mfussenegger/nvim-jdtls'
-	},
-	{
-		'folke/tokyonight.nvim',
-		lazy = false,
-		priority = 1000,
-		opts = {}
-	}
-
 })
 
 -- VIM CONFIG --
@@ -121,15 +35,12 @@ vim.wo.number = true
 vim.wo.relativenumber = true
 vim.o.completeopt = 'menuone,noselect'
 vim.wo.signcolumn = 'no'
-vim.cmd[[colorscheme tokyonight-night]]
+vim.cmd [[colorscheme tokyonight-night]]
 vim.o.shiftwidth = 4
 vim.o.softtabstop = 4
 vim.bo.expandtab = true
 
 -- KEYMAP CONFIG --
--- [[
--- mode = { leader = { prefix = { key = { command, desc } } } }
--- ]]
 local keymaps = {
 	n = {}
 }
@@ -153,8 +64,8 @@ groups.f['b'] = { builtin.buffers, 'Find Buffers' }
 groups.f['h'] = { builtin.help_tags, 'Help Tags' }
 keymaps.n['<leader>'].f = groups.f
 
--- NvimTree
-keymaps.n['<leader>'].e = { '<cmd>NvimTreeToggle<cr>', '󱏒 Toggle NvimTree' }
+-- NeoTree
+keymaps.n['<leader>'].e = { '<cmd>Neotree<cr>', '󱏒 Toggle NeoTree' }
 
 
 -- [[ Configure Treesitter ]]
@@ -242,6 +153,8 @@ groups.t['f'] = { '<cmd>ToggleTerm direction=float<cr>', 'ToggleTerm float' }
 keymaps.n['<leader>'].t = groups.t
 
 -- [[ Configure LSP ]]
+-- Neodev
+require("neodev").setup()
 -- Mason
 require("mason").setup()
 require("mason-lspconfig").setup()
@@ -264,8 +177,8 @@ local on_attach = function(_)
 	keymaps.n['gD'] = { vim.lsp.buf.declaration, 'Goto Declaration' }
 
 	keymaps.n['<leader>'].l = groups.l
-	require("plugins.mappings").setMappings(keymaps.n)
-	require("plugins.mappings").registerKeymaps()
+	require("utils.mappings").setMappings(keymaps.n)
+	require("utils.mappings").registerKeymaps()
 end
 
 groups.l['r'] = { vim.lsp.buf.rename, 'LSP Rename' }
@@ -285,8 +198,6 @@ groups.l['h'] = { vim.lsp.buf.signature_help, 'Signature Documentation' }
 keymaps.n['gD'] = { vim.lsp.buf.declaration, 'Goto Declaration' }
 
 keymaps.n['<leader>'].l = groups.l
--- Neodev
-require("neodev").setup()
 
 -- CMP
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -387,5 +298,5 @@ keymaps.n['<C-A-k>'] = { ':t.<cr>', 'Copy Line Up' }
 keymaps.n['<C-S-j>'] = { ':m .+1<cr>', 'Move Line Down' }
 keymaps.n['<C-S-k>'] = { ':m .-2<cr>', 'Move Line Up' }
 
-require("plugins.mappings").setMappings(keymaps.n)
-require("plugins.mappings").registerKeymaps()
+require("utils.mappings").setMappings(keymaps.n)
+require("utils.mappings").registerKeymaps()
