@@ -122,6 +122,9 @@ vim.wo.relativenumber = true
 vim.o.completeopt = 'menuone,noselect'
 vim.wo.signcolumn = 'no'
 vim.cmd[[colorscheme tokyonight-night]]
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.bo.expandtab = true
 
 -- KEYMAP CONFIG --
 -- [[
