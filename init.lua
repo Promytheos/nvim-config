@@ -135,7 +135,7 @@ require("neodev").setup()
 require("mason").setup()
 require("mason-lspconfig").setup()
 
-local on_attach = function(_, buf_nr)
+local on_attach = function(_)
     groups.l['r'] = { vim.lsp.buf.rename, 'LSP Rename' }
     groups.l['a'] = { vim.lsp.buf.code_action, 'Code Action' }
     groups.l['f'] = { vim.lsp.buf.format, 'Format Buffer' }
@@ -145,31 +145,17 @@ local on_attach = function(_, buf_nr)
     groups.l['T'] = { require('telescope.builtin').lsp_type_definitions, 'Type Definition' }
     groups.l['s'] = { require('telescope.builtin').lsp_document_symbols, 'Document Symbols' }
     groups.l['w'] = { require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace Symbols' }
-    groups.l['I'] = { vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled()), 'Toggle Inlay Hints' }
+    groups.l['i'] = { '<cmd>lua vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())<cr>', 'Toggle Inlay Hints' }
 
     keymaps.n['K'] = { vim.lsp.buf.hover, 'Hover Documentation' }
     groups.l['h'] = { vim.lsp.buf.signature_help, 'Signature Documentation' }
 
-    -- Lesser used LSP functionality
     keymaps.n['gD'] = { vim.lsp.buf.declaration, 'Goto Declaration' }
 
     keymaps.n['<leader>'].l = groups.l
     require("utils.mappings").setMappings(keymaps.n)
     require("utils.mappings").registerKeymaps()
 end
-
-groups.l['r'] = { vim.lsp.buf.rename, 'LSP Rename' }
-groups.l['a'] = { vim.lsp.buf.code_action, 'Code Action' }
-groups.l['f'] = { vim.lsp.buf.format, 'Format Buffer' }
-keymaps.n['gd'] = { vim.lsp.buf.definition, 'Goto Definition' }
-keymaps.n['gr'] = { require('telescope.builtin').lsp_references, 'Goto References' }
-keymaps.n['gI'] = { require('telescope.builtin').lsp_implementations, 'Goto Implementation' }
-groups.l['T'] = { require('telescope.builtin').lsp_type_definitions, 'Type Definition' }
-groups.l['s'] = { require('telescope.builtin').lsp_document_symbols, 'Document Symbols' }
-groups.l['w'] = { require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace Symbols' }
-
-keymaps.n['K'] = { vim.lsp.buf.hover, 'Hover Documentation' }
-groups.l['h'] = { vim.lsp.buf.signature_help, 'Signature Documentation' }
 
 -- Lesser used LSP functionality
 keymaps.n['gD'] = { vim.lsp.buf.declaration, 'Goto Declaration' }
@@ -210,7 +196,9 @@ mason_lspconfig.setup_handlers {
         }
     end,
     ['jdtls'] = function()
-    end
+    end,
+    ['tsserver'] = function()
+    end,
 }
 
 cmp.setup {

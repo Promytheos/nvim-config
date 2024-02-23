@@ -40,6 +40,7 @@ local config = {
 	-- for a list of options
 	settings = {
 		java = {
+                        inlayHints = { parameterNames = { enabled = 'all' }},
 			eclipse = {
 				downloadSources = true,
 			},
@@ -102,6 +103,9 @@ local config = {
 			}
 		}
 	},
+        on_attach = function ()
+            vim.keymap.set('n', '<leader>li', '<cmd>lua vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())<cr>', { noremap = true, desc = 'Toggled Inlay Hints' } )
+        end,
 
 	-- Language server `initializationOptions`
 	-- You need to extend the `bundles` with paths to jar files
