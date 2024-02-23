@@ -1,58 +1,39 @@
 ---@diagnostic disable: missing-fields
--- INIT CONFIG --
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
--- Added for nvim-tree
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
--- Enable 24-bit colours. TODO: Check this again
-vim.opt.termguicolors = true
-
+require("config.neovim")
 -- LAZY SETUP ---[[ - ]]
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system {
-		'git',
-		'clone',
-		'--filter=blob::none',
-		'https://github.com/folke/lazy.nvim.git',
-		'--branch=stable', -- latest stable release
-		lazypath,
-	}
+    vim.fn.system {
+        'git',
+        'clone',
+        '--filter=blob::none',
+        'https://github.com/folke/lazy.nvim.git',
+        '--branch=stable', -- latest stable release
+        lazypath,
+    }
 end
 vim.opt.rtp:prepend(lazypath)
 
 -- PLUGINS CONFIG --
 require('lazy').setup({
-	{ import = 'plugins' },
-	{ 'numToStr/Comment.nvim', opts = {} },
+    { import = 'plugins' },
+    { 'numToStr/Comment.nvim', opts = {} },
 })
 
--- VIM CONFIG --
-vim.o.undofile = true
-vim.wo.number = true
-vim.wo.relativenumber = true
-vim.o.completeopt = 'menuone,noselect'
-vim.wo.signcolumn = 'no'
 vim.cmd [[colorscheme tokyonight-night]]
-vim.o.shiftwidth = 4
-vim.o.softtabstop = 4
-vim.bo.expandtab = true
-
 -- KEYMAP CONFIG --
 local keymaps = {
-	n = {}
+    n = {}
 }
 
 local groups = {
-	f = { desc = " Find" },
-	p = { desc = '󰏓 Manage Packages' },
-	l = { desc = ' LSP' },
-	u = { desc = ' UI' },
-	b = { desc = '󰓩 Buffers' },
-	d = { desc = ' Debugger' },
-	t = { desc = ' Terminal' },
+    f = { desc = " Find" },
+    p = { desc = '󰏓 Manage Packages' },
+    l = { desc = ' LSP' },
+    u = { desc = ' UI' },
+    b = { desc = '󰓩 Buffers' },
+    d = { desc = ' Debugger' },
+    t = { desc = ' Terminal' },
 }
 
 -- Telescope
@@ -68,73 +49,68 @@ keymaps.n['<leader>'].f = groups.f
 keymaps.n['<leader>'].e = { '<cmd>Neotree<cr>', '󱏒 Toggle NeoTree' }
 
 
--- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
-	require('nvim-treesitter.configs').setup {
-		-- Add languages to be installed here that you want installed for treesitter
-		ensure_installed = { 'c', 'cpp', 'go', 'java', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+    require('nvim-treesitter.configs').setup {
+        ensure_installed = {
+            'java',
+            'lua',
+            'rust',
+            'javascript',
+            'typescript',
+            'vimdoc',
+            'vim',
+            'bash'
+        },
 
-		-- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-		auto_install = false,
+        auto_install = false,
 
-		highlight = { enable = true },
-		indent = { enable = true },
-		incremental_selection = {
-			enable = true,
-			keymaps = {
-				init_selection = '<c-space>',
-				node_incremental = '<c-space>',
-				scope_incremental = '<c-s>',
-				node_decremental = '<M-space>',
-			},
-		},
-		textobjects = {
-			select = {
-				enable = true,
-				lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-				keymaps = {
-					-- You can use the capture groups defined in textobjects.scm
-					['aa'] = '@parameter.outer',
-					['ia'] = '@parameter.inner',
-					['af'] = '@function.outer',
-					['if'] = '@function.inner',
-					['ac'] = '@class.outer',
-					['ic'] = '@class.inner',
-				},
-			},
-			move = {
-				enable = true,
-				set_jumps = true, -- whether to set jumps in the jumplist
-				goto_next_start = {
-					[']m'] = '@function.outer',
-					[']]'] = '@class.outer',
-				},
-				goto_next_end = {
-					[']M'] = '@function.outer',
-					[']['] = '@class.outer',
-				},
-				goto_previous_start = {
-					['[m'] = '@function.outer',
-					['[['] = '@class.outer',
-				},
-				goto_previous_end = {
-					['[M'] = '@function.outer',
-					['[]'] = '@class.outer',
-				},
-			},
-			swap = {
-				enable = true,
-				swap_next = {
-					['<leader>a'] = '@parameter.inner',
-				},
-				swap_previous = {
-					['<leader>A'] = '@parameter.inner',
-				},
-			},
-		},
-	}
+        highlight = { enable = true },
+        indent = { enable = true },
+        incremental_selection = {
+            enable = true,
+            keymaps = {
+                init_selection = '<c-space>',
+                node_incremental = '<c-space>',
+                scope_incremental = '<c-s>',
+                node_decremental = '<M-space>',
+            },
+        },
+        textobjects = {
+            select = {
+                enable = true,
+                lookahead = true,
+                keymaps = {
+                    ['aa'] = '@parameter.outer',
+                    ['ia'] = '@parameter.inner',
+                    ['af'] = '@function.outer',
+                    ['if'] = '@function.inner',
+                    ['ac'] = '@class.outer',
+                    ['ic'] = '@class.inner',
+                },
+            },
+            move = {
+                enable = true,
+                set_jumps = true,
+                goto_next_start = {
+                    [']m'] = '@function.outer',
+                    [']]'] = '@class.outer',
+                },
+                goto_next_end = {
+                    [']M'] = '@function.outer',
+                    [']['] = '@class.outer',
+                },
+                goto_previous_start = {
+                    ['[m'] = '@function.outer',
+                    ['[['] = '@class.outer',
+                },
+                goto_previous_end = {
+                    ['[M'] = '@function.outer',
+                    ['[]'] = '@class.outer',
+                },
+            },
+        },
+    }
 end, 0)
 
 -- Oil
@@ -145,7 +121,7 @@ require("toggleterm").setup {}
 local Terminal = require('toggleterm.terminal').Terminal
 local lazygit = Terminal:new({ cmd = 'lazygit', hiddent = true, direction = 'float' })
 function lazygit_toggle()
-	lazygit:toggle()
+    lazygit:toggle()
 end
 
 groups.t['l'] = { '<cmd>lua lazygit_toggle()<cr>', 'ToggleTerm lazygit' }
@@ -159,26 +135,27 @@ require("neodev").setup()
 require("mason").setup()
 require("mason-lspconfig").setup()
 
-local on_attach = function(_)
-	groups.l['r'] = { vim.lsp.buf.rename, 'LSP Rename' }
-	groups.l['a'] = { vim.lsp.buf.code_action, 'Code Action' }
-	groups.l['f'] = { vim.lsp.buf.format, 'Format Buffer' }
-	keymaps.n['gd'] = { vim.lsp.buf.definition, 'Goto Definition' }
-	keymaps.n['gr'] = { require('telescope.builtin').lsp_references, 'Goto References' }
-	keymaps.n['gI'] = { require('telescope.builtin').lsp_implementations, 'Goto Implementation' }
-	groups.l['T'] = { require('telescope.builtin').lsp_type_definitions, 'Type Definition' }
-	groups.l['s'] = { require('telescope.builtin').lsp_document_symbols, 'Document Symbols' }
-	groups.l['w'] = { require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace Symbols' }
+local on_attach = function(_, buf_nr)
+    groups.l['r'] = { vim.lsp.buf.rename, 'LSP Rename' }
+    groups.l['a'] = { vim.lsp.buf.code_action, 'Code Action' }
+    groups.l['f'] = { vim.lsp.buf.format, 'Format Buffer' }
+    keymaps.n['gd'] = { vim.lsp.buf.definition, 'Goto Definition' }
+    keymaps.n['gr'] = { require('telescope.builtin').lsp_references, 'Goto References' }
+    keymaps.n['gI'] = { require('telescope.builtin').lsp_implementations, 'Goto Implementation' }
+    groups.l['T'] = { require('telescope.builtin').lsp_type_definitions, 'Type Definition' }
+    groups.l['s'] = { require('telescope.builtin').lsp_document_symbols, 'Document Symbols' }
+    groups.l['w'] = { require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace Symbols' }
+    groups.l['I'] = { vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled()), 'Toggle Inlay Hints' }
 
-	keymaps.n['K'] = { vim.lsp.buf.hover, 'Hover Documentation' }
-	groups.l['h'] = { vim.lsp.buf.signature_help, 'Signature Documentation' }
+    keymaps.n['K'] = { vim.lsp.buf.hover, 'Hover Documentation' }
+    groups.l['h'] = { vim.lsp.buf.signature_help, 'Signature Documentation' }
 
-	-- Lesser used LSP functionality
-	keymaps.n['gD'] = { vim.lsp.buf.declaration, 'Goto Declaration' }
+    -- Lesser used LSP functionality
+    keymaps.n['gD'] = { vim.lsp.buf.declaration, 'Goto Declaration' }
 
-	keymaps.n['<leader>'].l = groups.l
-	require("utils.mappings").setMappings(keymaps.n)
-	require("utils.mappings").registerKeymaps()
+    keymaps.n['<leader>'].l = groups.l
+    require("utils.mappings").setMappings(keymaps.n)
+    require("utils.mappings").registerKeymaps()
 end
 
 groups.l['r'] = { vim.lsp.buf.rename, 'LSP Rename' }
@@ -204,17 +181,18 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 local servers = {
-	lua_ls = {
-		Lua = {
-			workspace = { checkThirdParty = false },
-			telemetry = { enable = false }
-		}
-	}
+    lua_ls = {
+        Lua = {
+            workspace = { checkThirdParty = false },
+            telemetry = { enable = false },
+            hint = { enable = true }
+        }
+    }
 }
 
 local mason_lspconfig = require 'mason-lspconfig'
 mason_lspconfig.setup {
-	ensure_installed = vim.tbl_keys(servers)
+    ensure_installed = vim.tbl_keys(servers)
 }
 
 local cmp = require 'cmp'
@@ -223,61 +201,61 @@ require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
 mason_lspconfig.setup_handlers {
-	function(server_name)
-		require('lspconfig')[server_name].setup {
-			capabilities = capabilities,
-			on_attach = on_attach,
-			settings = servers[server_name],
-			filetypes = (servers[server_name] or {}).filetypes,
-		}
-	end,
-	['jdtls'] = function()
-	end
+    function(server_name)
+        require('lspconfig')[server_name].setup {
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = servers[server_name],
+            filetypes = (servers[server_name] or {}).filetypes,
+        }
+    end,
+    ['jdtls'] = function()
+    end
 }
 
 cmp.setup {
-	snippet = {
-		expand = function(args)
-			luasnip.lsp_expand(args.body)
-		end,
-	},
-	completion = {
-		completeopt = 'menu,menuone,noinsert',
-	},
-	mapping = cmp.mapping.preset.insert {
-		['<C-n>'] = cmp.mapping.select_next_item(),
-		['<C-p>'] = cmp.mapping.select_prev_item(),
-		['<C-b>'] = cmp.mapping.scroll_docs(-4),
-		['<C-f>'] = cmp.mapping.scroll_docs(4),
-		['<C-Space>'] = cmp.mapping.complete {},
-		['<CR>'] = cmp.mapping.confirm {
-			behavior = cmp.ConfirmBehavior.Replace,
-			select = true,
-		},
-		['<Tab>'] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_next_item()
-			elseif luasnip.expand_or_locally_jumpable() then
-				luasnip.expand_or_jump()
-			else
-				fallback()
-			end
-		end, { 'i', 's' }),
-		['<S-Tab>'] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif luasnip.locally_jumpable(-1) then
-				luasnip.jump(-1)
-			else
-				fallback()
-			end
-		end, { 'i', 's' }),
-	},
-	sources = {
-		{ name = 'nvim_lsp' },
-		{ name = 'luasnip' },
-		{ name = 'path' },
-	},
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end,
+    },
+    completion = {
+        completeopt = 'menu,menuone,noinsert',
+    },
+    mapping = cmp.mapping.preset.insert {
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete {},
+        ['<CR>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+        },
+        ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif luasnip.expand_or_locally_jumpable() then
+                luasnip.expand_or_jump()
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.locally_jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+    },
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'luasnip' },
+        { name = 'path' },
+    },
 }
 
 

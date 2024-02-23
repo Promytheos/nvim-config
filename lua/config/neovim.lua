@@ -1,0 +1,11 @@
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+vim.opt.termguicolors = true
+vim.o.undofile = true
+vim.wo.number = true
+vim.wo.relativenumber = true
+vim.o.completeopt = 'menuone,noselect'
+vim.wo.signcolumn = 'no'
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.o.expandtab = true
