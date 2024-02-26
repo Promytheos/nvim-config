@@ -127,7 +127,11 @@ end
 
 groups.t['l'] = { '<cmd>lua lazygit_toggle()<cr>', 'ToggleTerm lazygit' }
 groups.t['f'] = { '<cmd>ToggleTerm direction=float<cr>', 'ToggleTerm float' }
+groups.t['h'] = { '<cmd>ToggleTerm direction=horizontal<cr>', 'ToggleTerm Horizontal' }
+groups.t['v'] = { '<cmd>ToggleTerm direction=vertical<cr>', 'ToggleTerm Vertical' }
 keymaps.n['<leader>'].t = groups.t
+vim.keymap.set('t', '<F7>', '<cmd>ToggleTermToggleAll<cr>', { noremap = true, desc = 'Toggle Terminal' });
+keymaps.n['<F7>'] = { '<cmd>ToggleTermToggleAll<cr>', 'Toggle Terminal' }
 
 -- [[ Configure LSP ]]
 -- Neodev
