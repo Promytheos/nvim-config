@@ -53,7 +53,8 @@ return {
                     includeInlayFunctionLikeReturnTypeHints = true,
                     includeInlayEnumMemberValueHints = true,
                 }
-            }
-        }
+            },
+            on_attach = require("config.lsp-keymaps").registerLspKeymaps,
+        },
     },
 }

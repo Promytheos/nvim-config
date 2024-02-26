@@ -9,3 +9,5 @@ vim.wo.signcolumn = 'no'
 vim.o.shiftwidth = 4
 vim.o.softtabstop = 4
 vim.o.expandtab = true
+vim.o.scrolloff = 30
+vim.o.cmdheight = 0

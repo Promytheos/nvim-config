@@ -46,7 +46,8 @@ groups.f['h'] = { builtin.help_tags, 'Help Tags' }
 keymaps.n['<leader>'].f = groups.f
 
 -- NeoTree
-keymaps.n['<leader>'].e = { '<cmd>Neotree<cr>', '󱏒 Toggle NeoTree' }
+keymaps.n['<leader>'].e = { '<cmd>Neotree toggle<cr>', '󱏒 Toggle NeoTree' }
+keymaps.n['<leader>'].o = { '<cmd>Neotree focus<cr>', '󱏒 Toggle NeoTree Focus' }
 
 
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
@@ -135,31 +136,6 @@ require("neodev").setup()
 require("mason").setup()
 require("mason-lspconfig").setup()
 
-local on_attach = function(_)
-    groups.l['r'] = { vim.lsp.buf.rename, 'LSP Rename' }
-    groups.l['a'] = { vim.lsp.buf.code_action, 'Code Action' }
-    groups.l['f'] = { vim.lsp.buf.format, 'Format Buffer' }
-    keymaps.n['gd'] = { vim.lsp.buf.definition, 'Goto Definition' }
-    keymaps.n['gr'] = { require('telescope.builtin').lsp_references, 'Goto References' }
-    keymaps.n['gI'] = { require('telescope.builtin').lsp_implementations, 'Goto Implementation' }
-    groups.l['T'] = { require('telescope.builtin').lsp_type_definitions, 'Type Definition' }
-    groups.l['s'] = { require('telescope.builtin').lsp_document_symbols, 'Document Symbols' }
-    groups.l['w'] = { require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace Symbols' }
-    groups.l['i'] = { '<cmd>lua vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())<cr>', 'Toggle Inlay Hints' }
-
-    keymaps.n['K'] = { vim.lsp.buf.hover, 'Hover Documentation' }
-    groups.l['h'] = { vim.lsp.buf.signature_help, 'Signature Documentation' }
-
-    keymaps.n['gD'] = { vim.lsp.buf.declaration, 'Goto Declaration' }
-
-    keymaps.n['<leader>'].l = groups.l
-    require("utils.mappings").setMappings(keymaps.n)
-    require("utils.mappings").registerKeymaps()
-end
-
--- Lesser used LSP functionality
-keymaps.n['gD'] = { vim.lsp.buf.declaration, 'Goto Declaration' }
-
 keymaps.n['<leader>'].l = groups.l
 
 -- CMP
@@ -190,7 +166,7 @@ mason_lspconfig.setup_handlers {
     function(server_name)
         require('lspconfig')[server_name].setup {
             capabilities = capabilities,
-            on_attach = on_attach,
+            on_attach = require("config.lsp-keymaps").registerLspKeymaps,
             settings = servers[server_name],
             filetypes = (servers[server_name] or {}).filetypes,
         }
