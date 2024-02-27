@@ -1,5 +1,10 @@
 return {
     {
+        'windwp/nvim-autopairs',
+        event = 'InsertEnter',
+        config = true
+    },
+    {
         'hrsh7th/nvim-cmp',
         dependencies = {
             -- Snippet Engine & its associated nvim-cmp source
@@ -13,6 +18,11 @@ return {
             -- Adds a number of user-friendly snippets
             'rafamadriz/friendly-snippets',
         },
+    },
+    {
+        'lukas-reineke/indent-blankline.nvim',
+        main = 'ibl',
+        opts = {}
     },
     {
         -- Highlight, edit, and navigate code
