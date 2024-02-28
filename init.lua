@@ -104,7 +104,7 @@ vim.defer_fn(function()
 end, 0)
 
 -- Oil
-mappings.registerKey('-', '<cmd>Oil<cr>', '󰏇 Open Parent Dir in Oil' )
+mappings.registerKey('-', '<cmd>Oil<cr>', { desc = '󰏇 Open Parent Dir in Oil' })
 
 -- ToggleTerm
 require("toggleterm").setup {}
@@ -119,7 +119,8 @@ terminalGroup['l'] = { '<cmd>lua lazygit_toggle()<cr>', 'ToggleTerm lazygit' }
 terminalGroup['f'] = { '<cmd>ToggleTerm direction=float<cr>', 'ToggleTerm float' }
 terminalGroup['h'] = { '<cmd>ToggleTerm direction=horizontal<cr>', 'ToggleTerm Horizontal' }
 terminalGroup['v'] = { '<cmd>ToggleTerm direction=vertical<cr>', 'ToggleTerm Vertical' }
-mappings.registerKey('<F7>', '<cmd>ToggleTermToggleAll<cr>', 'Toggle Terminal' )
+mappings.registerKey('<F7>', '<cmd>ToggleTermToggleAll<cr>', { desc = 'Toggle Terminal' })
+mappings.registerKey('<F7>', '<cmd>ToggleTermToggleAll<cr>', { desc = 'Toggle Terminal', mode = 't' })
 
 -- [[ Configure LSP ]]
 -- Neodev
@@ -214,20 +215,20 @@ cmp.setup {
 
 
 -- Vim Built-In Functions
-mappings.registerKey('<C-s>', '<cmd>w<cr>', 'Write')
-mappings.registerKey('<C-q>q', '<cmd>confirm qall<cr>', 'Confirm Quit All' )
-mappings.registerKey('<C-q>w', '<cmd>confirm q<cr>', 'Confirm Quit Buffer' )
-mappings.registerKey('<C-q>f', '<cmd>qa!<cr>', 'Force Quit' )
-mappings.registerKey('|', '<cmd>vsplit<cr>', 'Vertical Split' )
-mappings.registerKey('\\', '<cmd>split<cr>', 'Horizontal Split' )
-mappings.registerKey('<Esc>', '<cmd>noh<cr>', 'Clear Highlights' )
-mappings.registerKey('<C-h>', '<C-w>h', 'Window Left' )
-mappings.registerKey('<C-l>', '<C-w>l', 'Window Right' )
-mappings.registerKey('<C-k>', '<C-w>k', 'Window Up' )
-mappings.registerKey('<C-j>', '<C-w>j', 'Window Down' )
-mappings.registerKey('<C-A-j>', ':t.<cr>k', 'Copy Line Down' )
-mappings.registerKey('<C-A-k>', ':t.<cr>', 'Copy Line Up' )
-mappings.registerKey('<C-S-j>', ':m .+1<cr>', 'Move Line Down' )
-mappings.registerKey('<C-S-k>', ':m .-2<cr>', 'Move Line Up' )
+mappings.registerKey('<C-s>', '<cmd>w<cr>', { desc = 'Write' })
+mappings.registerKey('<C-q>q', '<cmd>confirm qall<cr>', { desc = 'Confirm Quit All' })
+mappings.registerKey('<C-q>w', '<cmd>confirm q<cr>', { desc = 'Confirm Quit Buffer' })
+mappings.registerKey('<C-q>f', '<cmd>qa!<cr>', { desc = 'Force Quit' })
+mappings.registerKey('|', '<cmd>vsplit<cr>', { desc = 'Vertical Split' })
+mappings.registerKey('\\', '<cmd>split<cr>', { desc = 'Horizontal Split' })
+mappings.registerKey('<Esc>', '<cmd>noh<cr>', { desc = 'Clear Highlights' })
+mappings.registerKey('<C-h>', '<C-w>h', { desc = 'Window Left' })
+mappings.registerKey('<C-l>', '<C-w>l', { desc = 'Window Right' })
+mappings.registerKey('<C-k>', '<C-w>k', { desc = 'Window Up' })
+mappings.registerKey('<C-j>', '<C-w>j', { desc = 'Window Down' })
+mappings.registerKey('<C-A-j>', ':t.<cr>k', { desc = 'Copy Line Down' })
+mappings.registerKey('<C-A-k>', ':t.<cr>', { desc = 'Copy Line Up' })
+mappings.registerKey('<C-S-j>', ':m .+1<cr>', { desc = 'Move Line Down' })
+mappings.registerKey('<C-S-k>', ':m .-2<cr>', { desc = 'Move Line Up' })
 
 require("utils.mappings").registerKeymaps()

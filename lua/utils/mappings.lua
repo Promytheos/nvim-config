@@ -51,9 +51,10 @@ M.registerKeymaps = function()
     end
 end
 
-M.registerKey = function (key, command, desc)
-    desc = desc or ""
-    whichKey.register({[key] = { command, desc }})
+M.registerKey = function (key, command, opts)
+    local desc = opts.desc or ""
+    local mode = opts.mode or 'n'
+    whichKey.register({[key] = { command, desc }}, { mode = mode })
 end
 
 return M

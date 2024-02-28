@@ -14,7 +14,7 @@ M.registerLspKeymaps = function()
         'Toggle Inlay Hints' }
     lspGroup['h'] = { vim.lsp.buf.signature_help, 'Signature Documentation' }
 
-    mappings.registerKey('K', 'Hover Documentation' )
+    mappings.registerKey('K', vim.lsp.buf.hover, { desc = 'Hover Documentation' })
 
     goGroup.maps['d'] = { vim.lsp.buf.definition, 'Goto Definition' }
     goGroup.maps['r'] = { require('telescope.builtin').lsp_references, 'Goto References' }
