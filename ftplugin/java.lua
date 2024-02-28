@@ -104,7 +104,7 @@ local config = {
 		}
 	},
         on_attach = function ()
-            vim.keymap.set('n', '<leader>li', '<cmd>lua vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())<cr>', { noremap = true, desc = 'Toggled Inlay Hints' } )
+            require("config.lsp-keymaps").registerLspKeymaps()
         end,
 
 	-- Language server `initializationOptions`
