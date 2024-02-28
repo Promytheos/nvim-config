@@ -5,12 +5,21 @@ return {
             'nvim-tree/nvim-web-devicons',
             'nvim-lua/plenary.nvim'
         },
-        config = function ()
+        config = function()
             require("alpha").setup(require("alpha.themes.startify").config)
         end
     },
     {
-        'lewis6991/gitsigns.nvim'
+        'lewis6991/gitsigns.nvim',
+        opts = {
+            signs = {
+                add = { text = '+' },
+                change = { text = '~' },
+                delete = { text = '_' },
+                topdelete = { text = '‾' },
+                changedelete = { text = '~' },
+            },
+        },
     },
     {
         'nvim-lualine/lualine.nvim',

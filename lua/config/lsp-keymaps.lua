@@ -13,6 +13,9 @@ M.registerLspKeymaps = function()
     lspGroup['i'] = { '<cmd>lua vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())<cr>',
         'Toggle Inlay Hints' }
     lspGroup['h'] = { vim.lsp.buf.signature_help, 'Signature Documentation' }
+    lspGroup['d'] = { vim.diagnostic.open_float, 'Open Diagnostics' }
+    lspGroup['q'] = { vim.diagnostic.setloclist, 'Add Buffer Diagnostics to Quickfix' }
+    lspGroup['Q'] = { vim.diagnostic.setqflist, 'Add All Diagnostics to Quickfix' }
 
     mappings.registerKey('K', vim.lsp.buf.hover, { desc = 'Hover Documentation' })
 
@@ -20,6 +23,8 @@ M.registerLspKeymaps = function()
     goGroup.maps['r'] = { require('telescope.builtin').lsp_references, 'Goto References' }
     goGroup.maps['I'] = { require('telescope.builtin').lsp_implementations, 'Goto Implementation' }
     goGroup.maps['D'] = { vim.lsp.buf.declaration, 'Goto Declaration' }
+    goGroup.maps['j'] = { vim.diagnostic.goto_next, 'Goto Next Diagnostic' }
+    goGroup.maps['k'] = { vim.diagnostic.goto_prev, 'Goto Prev Diagnostic' }
 
     require("utils.mappings").registerKeymaps()
 end

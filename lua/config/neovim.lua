@@ -15,4 +15,7 @@ vim.o.smartcase = true
 vim.wo.signcolumn = 'yes'
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
-
+vim.o.showmode = false
+vim.o.inccommand = 'split'
+vim.o.splitright = true
+vim.o.splitbelow = true
