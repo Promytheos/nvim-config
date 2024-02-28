@@ -21,33 +21,22 @@ require('lazy').setup({
 })
 
 vim.cmd [[colorscheme tokyonight-night]]
--- KEYMAP CONFIG --
-local keymaps = {
-    n = {}
-}
 
-local groups = {
-    f = { desc = " Find" },
-    p = { desc = '󰏓 Manage Packages' },
-    l = { desc = ' LSP' },
-    u = { desc = ' UI' },
-    b = { desc = '󰓩 Buffers' },
-    d = { desc = ' Debugger' },
-    t = { desc = ' Terminal' },
-}
+local mappings = require("utils.mappings")
 
 -- Telescope
 local builtin = require('telescope.builtin')
-keymaps.n['<leader>'] = {}
-groups.f['f'] = { builtin.find_files, "Find Files" }
-groups.f['g'] = { builtin.live_grep, "Live Grep" }
-groups.f['b'] = { builtin.buffers, 'Find Buffers' }
-groups.f['h'] = { builtin.help_tags, 'Help Tags' }
-keymaps.n['<leader>'].f = groups.f
+local findGroup = mappings.getGroupPrefix('<leader>', 'f')
+
+findGroup['f'] = { builtin.find_files, "Find Files" }
+findGroup['g'] = { builtin.live_grep, "Live Grep" }
+findGroup['b'] = { builtin.buffers, 'Find Buffers' }
+findGroup['h'] = { builtin.help_tags, 'Help Tags' }
 
 -- NeoTree
-keymaps.n['<leader>'].e = { '<cmd>Neotree toggle<cr>', '󱏒 Toggle NeoTree' }
-keymaps.n['<leader>'].o = { '<cmd>Neotree focus<cr>', '󱏒 Toggle NeoTree Focus' }
+local leaderGroup = mappings.getGroup('<leader>')
+leaderGroup['e'] = { '<cmd>Neotree toggle<cr>', '󱏒 Toggle NeoTree' }
+leaderGroup['o'] = { '<cmd>Neotree focus<cr>', '󱏒 Toggle NeoTree Focus' }
 
 
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
@@ -115,7 +104,7 @@ vim.defer_fn(function()
 end, 0)
 
 -- Oil
-keymaps.n['-'] = { '<cmd>Oil<cr>', '󰏇 Open Parent Dir in Oil' }
+mappings.registerKey('-', '<cmd>Oil<cr>', '󰏇 Open Parent Dir in Oil' )
 
 -- ToggleTerm
 require("toggleterm").setup {}
@@ -125,13 +114,12 @@ function lazygit_toggle()
     lazygit:toggle()
 end
 
-groups.t['l'] = { '<cmd>lua lazygit_toggle()<cr>', 'ToggleTerm lazygit' }
-groups.t['f'] = { '<cmd>ToggleTerm direction=float<cr>', 'ToggleTerm float' }
-groups.t['h'] = { '<cmd>ToggleTerm direction=horizontal<cr>', 'ToggleTerm Horizontal' }
-groups.t['v'] = { '<cmd>ToggleTerm direction=vertical<cr>', 'ToggleTerm Vertical' }
-keymaps.n['<leader>'].t = groups.t
-vim.keymap.set('t', '<F7>', '<cmd>ToggleTermToggleAll<cr>', { noremap = true, desc = 'Toggle Terminal' });
-keymaps.n['<F7>'] = { '<cmd>ToggleTermToggleAll<cr>', 'Toggle Terminal' }
+local terminalGroup = mappings.getGroupPrefix('<leader>', 't')
+terminalGroup['l'] = { '<cmd>lua lazygit_toggle()<cr>', 'ToggleTerm lazygit' }
+terminalGroup['f'] = { '<cmd>ToggleTerm direction=float<cr>', 'ToggleTerm float' }
+terminalGroup['h'] = { '<cmd>ToggleTerm direction=horizontal<cr>', 'ToggleTerm Horizontal' }
+terminalGroup['v'] = { '<cmd>ToggleTerm direction=vertical<cr>', 'ToggleTerm Vertical' }
+mappings.registerKey('<F7>', '<cmd>ToggleTermToggleAll<cr>', 'Toggle Terminal' )
 
 -- [[ Configure LSP ]]
 -- Neodev
@@ -139,8 +127,6 @@ require("neodev").setup()
 -- Mason
 require("mason").setup()
 require("mason-lspconfig").setup()
-
-keymaps.n['<leader>'].l = groups.l
 
 -- CMP
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -228,21 +214,20 @@ cmp.setup {
 
 
 -- Vim Built-In Functions
-keymaps.n['<C-s>'] = { '<cmd>w<cr>', 'Write' }
-keymaps.n['<C-q>q'] = { '<cmd>confirm qall<cr>', 'Confirm Quit All' }
-keymaps.n['<C-q>w'] = { '<cmd>confirm q<cr>', 'Confirm Quit Buffer' }
-keymaps.n['<C-q>f'] = { '<cmd>qa!<cr>', 'Force Quit' }
-keymaps.n['|'] = { '<cmd>vsplit<cr>', 'Vertical Split' }
-keymaps.n['\\'] = { '<cmd>split<cr>', 'Horizontal Split' }
-keymaps.n['<Esc>'] = { '<cmd>noh<cr>', 'Clear Highlights' }
-keymaps.n['<C-h>'] = { '<C-w>h', 'Window Left' }
-keymaps.n['<C-l>'] = { '<C-w>l', 'Window Right' }
-keymaps.n['<C-k>'] = { '<C-w>k', 'Window Up' }
-keymaps.n['<C-j>'] = { '<C-w>j', 'Window Down' }
-keymaps.n['<C-A-j>'] = { ':t.<cr>k', 'Copy Line Down' }
-keymaps.n['<C-A-k>'] = { ':t.<cr>', 'Copy Line Up' }
-keymaps.n['<C-S-j>'] = { ':m .+1<cr>', 'Move Line Down' }
-keymaps.n['<C-S-k>'] = { ':m .-2<cr>', 'Move Line Up' }
+mappings.registerKey('<C-s>', '<cmd>w<cr>', 'Write')
+mappings.registerKey('<C-q>q', '<cmd>confirm qall<cr>', 'Confirm Quit All' )
+mappings.registerKey('<C-q>w', '<cmd>confirm q<cr>', 'Confirm Quit Buffer' )
+mappings.registerKey('<C-q>f', '<cmd>qa!<cr>', 'Force Quit' )
+mappings.registerKey('|', '<cmd>vsplit<cr>', 'Vertical Split' )
+mappings.registerKey('\\', '<cmd>split<cr>', 'Horizontal Split' )
+mappings.registerKey('<Esc>', '<cmd>noh<cr>', 'Clear Highlights' )
+mappings.registerKey('<C-h>', '<C-w>h', 'Window Left' )
+mappings.registerKey('<C-l>', '<C-w>l', 'Window Right' )
+mappings.registerKey('<C-k>', '<C-w>k', 'Window Up' )
+mappings.registerKey('<C-j>', '<C-w>j', 'Window Down' )
+mappings.registerKey('<C-A-j>', ':t.<cr>k', 'Copy Line Down' )
+mappings.registerKey('<C-A-k>', ':t.<cr>', 'Copy Line Up' )
+mappings.registerKey('<C-S-j>', ':m .+1<cr>', 'Move Line Down' )
+mappings.registerKey('<C-S-k>', ':m .-2<cr>', 'Move Line Up' )
 
-require("utils.mappings").setMappings(keymaps.n)
 require("utils.mappings").registerKeymaps()

@@ -5,6 +5,13 @@ return {
         config = true
     },
     {
+        'echasnovski/mini.nvim',
+        version = '*',
+        config = function ()
+            require('mini.surround').setup()
+        end
+    },
+    {
         'hrsh7th/nvim-cmp',
         dependencies = {
             -- Snippet Engine & its associated nvim-cmp source

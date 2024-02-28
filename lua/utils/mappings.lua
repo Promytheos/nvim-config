@@ -1,37 +1,59 @@
 local M = {}
-local map = {}
+local whichKey = require("which-key")
 
 local groups = {
-	f = { desc = " Find" },
-	p = { desc = '󰏓 Manage Packages' },
-	l = { desc = ' LSP' },
-	u = { desc = ' UI' },
-	b = { desc = '󰓩 Buffers' },
-	d = { desc = ' Debugger' },
-	t = { desc = ' Terminal' },
+    {
+        maps = {
+            f = { desc = " Find" },
+            p = { desc = '󰏓 Manage Packages' },
+            l = { desc = ' LSP' },
+            u = { desc = ' UI' },
+            b = { desc = '󰓩 Buffers' },
+            d = { desc = ' Debugger' },
+            t = { desc = ' Terminal' },
+        },
+        opts = { prefix = '<leader>' }
+    },
 }
 
-M.setGroup = function(key, desc)
-	desc = desc or 'prefix'
-	if groups[key] == nil then
-		groups[key] = { desc = desc }
-	end
-	return groups[key]
+M.createGroup = function(groupName, prefix)
+    local group = {
+        maps = {},
+        opts = { prefix = prefix, desc = groupName }
+    }
+    table.insert(groups, group)
+    return M.getGroup(prefix)
 end
 
-M.setLeaderGroup = function (key)
-	if map[key] == nil then
-		map[key] = {}
-	end
-	return map[key]
+M.getGroup = function(prefix)
+    for i = 1, #groups, 1 do
+        local prefixGroup = groups[i]
+        if prefixGroup.opts.prefix == prefix then
+            return prefixGroup
+        end
+    end
 end
 
-M.setMappings = function(keymap)
-	map = keymap
+M.getGroupPrefix =  function (groupName, prefixName)
+    local group = M.getGroup(groupName).maps
+    for prefix, opts in pairs(group) do
+        if prefix == prefixName then
+            return opts
+        end
+    end
 end
+
 
 M.registerKeymaps = function()
-	require("which-key").register(map)
+    for i = 1, #groups, 1 do
+        local group = groups[i]
+        whichKey.register(group.maps, group.opts)
+    end
+end
+
+M.registerKey = function (key, command, desc)
+    desc = desc or ""
+    whichKey.register({[key] = { command, desc }})
 end
 
 return M
