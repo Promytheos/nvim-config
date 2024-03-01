@@ -34,9 +34,17 @@ findGroup['b'] = { builtin.buffers, 'Find Buffers' }
 findGroup['h'] = { builtin.help_tags, 'Help Tags' }
 
 -- NeoTree
-local leaderGroup = mappings.getGroup('<leader>')
-leaderGroup['e'] = { '<cmd>Neotree toggle<cr>', '󱏒 Toggle NeoTree' }
-leaderGroup['o'] = { '<cmd>Neotree focus<cr>', '󱏒 Toggle NeoTree Focus' }
+mappings.registerKey('<leader>e','<cmd>Neotree toggle<cr>',{  desc = '󱏒 Toggle NeoTree' })
+
+-- Buffers
+local bufferGroup = mappings.getGroupPrefix('<leader>', 'b')
+bufferGroup['d'] = { '<cmd>bd<cr>', 'Delete Current Buffer'}
+bufferGroup['p'] = { '<cmd>bp<cr>', 'Go to Previous Buffer'}
+mappings.registerKey('<A-h>', '<cmd>bp<cr>', 'Go to Previous Buffer')
+bufferGroup['n'] = { '<cmd>bn<cr>', 'Go to Next Buffer'}
+mappings.registerKey('<A-l>', '<cmd>bn<cr>', 'Go to Next Buffer')
+bufferGroup['t'] = { '<cmd>b#<cr>', 'Toggle Last Active Buffer'}
+mappings.registerKey('<A-o>', '<cmd>b#<cr>', 'Toggle Last Active Buffer')
 
 
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
