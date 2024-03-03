@@ -40,11 +40,15 @@ mappings.registerKey('<leader>e','<cmd>Neotree toggle<cr>',{  desc = '󱏒 Toggl
 local bufferGroup = mappings.getGroupPrefix('<leader>', 'b')
 bufferGroup['d'] = { '<cmd>bd<cr>', 'Delete Current Buffer'}
 bufferGroup['p'] = { '<cmd>bp<cr>', 'Go to Previous Buffer'}
-mappings.registerKey('<A-h>', '<cmd>bp<cr>', 'Go to Previous Buffer')
 bufferGroup['n'] = { '<cmd>bn<cr>', 'Go to Next Buffer'}
-mappings.registerKey('<A-l>', '<cmd>bn<cr>', 'Go to Next Buffer')
 bufferGroup['t'] = { '<cmd>b#<cr>', 'Toggle Last Active Buffer'}
+bufferGroup['D'] = { '<cmd>1,.-bd | .+1,$bd<cr>', 'Delete Other Buffers'}
+
+mappings.registerKey('<A-h>', '<cmd>bp<cr>', 'Go to Previous Buffer')
 mappings.registerKey('<A-o>', '<cmd>b#<cr>', 'Toggle Last Active Buffer')
+mappings.registerKey('<A-l>', '<cmd>bn<cr>', 'Go to Next Buffer')
+mappings.registerKey('<A-t>', '<cmd>tabnew<cr>', 'Create New Tab')
+mappings.registerKey('<A-w>', '<cmd>tabc<cr>', 'Close Tab')
 
 
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
