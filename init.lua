@@ -34,7 +34,7 @@ findGroup['b'] = { builtin.buffers, 'Find Buffers' }
 findGroup['h'] = { builtin.help_tags, 'Help Tags' }
 
 -- NeoTree
-mappings.registerKey('<leader>e', '<cmd>Neotree toggle<cr>', { desc = '󱏒 Toggle NeoTree' })
+mappings.registerKey('<leader>e', '<cmd>Neotree toggle reveal_force_cwd<cr>', { desc = '󱏒 Toggle NeoTree' })
 
 -- Buffers
 local bufferGroup = mappings.getGroupPrefix('<leader>', 'b')
@@ -52,6 +52,12 @@ mappings.registerKey('<A-o>', '<cmd>b#<cr>', { desc = 'Toggle Last Active Buffer
 mappings.registerKey('<A-t>', '<cmd>tabnew<cr>', { desc = 'Create New Tab' })
 mappings.registerKey('<A-w>', '<cmd>tabc<cr>', { desc = 'Close Tab' })
 
+-- Plugin Manager
+local pluginGroup = mappings.getGroupPrefix('<leader>', 'p')
+pluginGroup['m'] = { '<cmd>Mason<cr>', 'Open Mason' }
+pluginGroup['l'] = { '<cmd>Lazy<cr>' }
+
+mappings.registerKey('<leader>h', '<cmd>Alpha<cr>', { desc = 'Open Dashboard' })
 
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
@@ -231,7 +237,8 @@ cmp.setup {
 -- Vim Built-In Functions
 mappings.registerKey('<C-s>', '<cmd>w<cr>', { desc = 'Write' })
 mappings.registerKey('<C-q>q', '<cmd>confirm qall<cr>', { desc = 'Confirm Quit All' })
-mappings.registerKey('<C-q>w', '<cmd>confirm q<cr>', { desc = 'Confirm Quit Buffer' })
+mappings.registerKey('<C-q>w', '<cmd>confirm q<cr>', { desc = 'Confirm Quit Window' })
+mappings.registerKey('<C-q>b', '<cmd>confirm bd<cr>', { desc = 'Confirm Quit Buffer' })
 mappings.registerKey('<C-q>f', '<cmd>qa!<cr>', { desc = 'Force Quit' })
 mappings.registerKey('|', '<cmd>vsplit<cr>', { desc = 'Vertical Split' })
 mappings.registerKey('\\', '<cmd>split<cr>', { desc = 'Horizontal Split' })
