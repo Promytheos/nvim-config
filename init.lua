@@ -54,8 +54,8 @@ mappings.registerKey('<A-w>', '<cmd>tabc<cr>', { desc = 'Close Tab' })
 
 -- Plugin Manager
 local pluginGroup = mappings.getGroupPrefix('<leader>', 'p')
-pluginGroup['m'] = { '<cmd>Mason<cr>', 'Open Mason' }
-pluginGroup['l'] = { '<cmd>Lazy<cr>' }
+pluginGroup['m'] = { '<cmd>Mason<cr>', 'Open Mason LSP Plugin Manager' }
+pluginGroup['l'] = { '<cmd>Lazy<cr>', 'Open Lazy Plugin Manager' }
 
 mappings.registerKey('<leader>h', '<cmd>Alpha<cr>', { desc = 'Open Dashboard' })
 
