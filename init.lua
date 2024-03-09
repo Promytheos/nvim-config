@@ -1,5 +1,5 @@
 ---@diagnostic disable: missing-fields
-require("config.neovim")
+require("config.neovim-config")
 -- LAZY SETUP ---[[ - ]]
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -71,7 +71,7 @@ function Lazygit_Toggle()
 end
 
 local terminal_group = mappings.get_group_prefix("<leader>", "t")
-terminal_group["l"] = { "<cmd>lua lazygit_toggle()<cr>", "ToggleTerm lazygit" }
+terminal_group["l"] = { "<cmd>lua Lazygit_Toggle()<cr>", "ToggleTerm lazygit" }
 terminal_group["f"] = { "<cmd>ToggleTerm direction=float<cr>", "ToggleTerm float" }
 terminal_group["h"] = { "<cmd>ToggleTerm direction=horizontal<cr>", "ToggleTerm Horizontal" }
 terminal_group["v"] = { "<cmd>ToggleTerm direction=vertical<cr>", "ToggleTerm Vertical" }
