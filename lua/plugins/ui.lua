@@ -24,7 +24,7 @@ return {
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
-        opts = require("config.lualine")
+        opts = require("config.lualine-config")
     },
     {
         'folke/tokyonight.nvim',
@@ -34,6 +34,16 @@ return {
     },
     {
         'folke/which-key.nvim',
+        event = 'VeryLazy',
         opts = {}
-    }
+    },
+    {
+        'folke/todo-comments.nvim',
+        dependencies = {
+            'nvim-lua/plenary.nvim'
+        },
+        opts = {
+            signs = false
+        }
+    },
 }

@@ -7,6 +7,7 @@ os.execute("mkdir " .. workspace_dir)
 local jdtls = require('jdtls')
 
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
+-- TODO: Move to config
 local config = {
     -- The command that starts the language server
     -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
@@ -104,7 +105,7 @@ local config = {
         }
     },
     on_attach = function()
-        require("config.lsp-keymaps").registerLspKeymaps()
+        require("config.lsp-keymaps").register_lsp_keymaps()
     end,
 
     -- Language server `initializationOptions`
@@ -118,7 +119,7 @@ local config = {
         bundles = {
             vim.fn.expand "$MASON/share/java-debug-adapter/com.microsoft.java.debug.plugin.jar",
             -- unpack remaining bundles
-            (table.unpack or unpack)(vim.split(vim.fn.glob "$MASON/share/java-test/*.jar", "\n", {})),
+            (table.unpack)(vim.split(vim.fn.glob "$MASON/share/java-test/*.jar", "\n", {})),
         },
     },
 }

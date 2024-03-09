@@ -1,5 +1,5 @@
 local M = {}
-local whichKey = require("which-key")
+local which_key = require("which-key")
 
 local groups = {
     {
@@ -16,45 +16,45 @@ local groups = {
     },
 }
 
-M.createGroup = function(groupName, prefix)
+M.create_group = function(group_name, prefix)
     local group = {
         maps = {},
-        opts = { prefix = prefix, desc = groupName }
+        opts = { prefix = prefix, desc = group_name }
     }
     table.insert(groups, group)
-    return M.getGroup(prefix)
+    return M.get_group(prefix)
 end
 
-M.getGroup = function(prefix)
+M.get_group = function(prefix)
     for i = 1, #groups, 1 do
-        local prefixGroup = groups[i]
-        if prefixGroup.opts.prefix == prefix then
-            return prefixGroup
+        local prefix_group = groups[i]
+        if prefix_group.opts.prefix == prefix then
+            return prefix_group
         end
     end
 end
 
-M.getGroupPrefix =  function (groupName, prefixName)
-    local group = M.getGroup(groupName).maps
+M.get_group_prefix =  function (group_name, prefix_name)
+    local group = M.get_group(group_name).maps
     for prefix, opts in pairs(group) do
-        if prefix == prefixName then
+        if prefix == prefix_name then
             return opts
         end
     end
 end
 
 
-M.registerKeymaps = function()
+M.register_keymaps = function()
     for i = 1, #groups, 1 do
         local group = groups[i]
-        whichKey.register(group.maps, group.opts)
+        which_key.register(group.maps, group.opts)
     end
 end
 
-M.registerKey = function (key, command, opts)
+M.register_key = function (key, command, opts)
     local desc = opts.desc or ""
     local mode = opts.mode or 'n'
-    whichKey.register({[key] = { command, desc }}, { mode = mode })
+    which_key.register({[key] = { command, desc }}, { mode = mode })
 end
 
 return M

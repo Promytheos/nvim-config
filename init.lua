@@ -1,255 +1,107 @@
 ---@diagnostic disable: missing-fields
 require("config.neovim")
 -- LAZY SETUP ---[[ - ]]
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system {
-        'git',
-        'clone',
-        '--filter=blob::none',
-        'https://github.com/folke/lazy.nvim.git',
-        '--branch=stable', -- latest stable release
+        "git",
+        "clone",
+        "--filter=blob::none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
         lazypath,
     }
 end
 vim.opt.rtp:prepend(lazypath)
 
 -- PLUGINS CONFIG --
-require('lazy').setup({
-    { import = 'plugins' },
-    { 'numToStr/Comment.nvim', opts = {} },
+require("lazy").setup({
+    { import = "plugins" },
 })
 
 vim.cmd [[colorscheme tokyonight-night]]
 
+-- TODO: Move to mappings file
 local mappings = require("utils.mappings")
 
 -- Telescope
-local builtin = require('telescope.builtin')
-local findGroup = mappings.getGroupPrefix('<leader>', 'f')
+local builtin = require("telescope.builtin")
+local find_group = mappings.get_group_prefix("<leader>", "f")
 
-findGroup['f'] = { builtin.find_files, "Find Files" }
-findGroup['g'] = { builtin.live_grep, "Live Grep" }
-findGroup['b'] = { builtin.buffers, 'Find Buffers' }
-findGroup['h'] = { builtin.help_tags, 'Help Tags' }
+find_group["f"] = { builtin.find_files, "Find Files" }
+find_group["g"] = { builtin.live_grep, "Live Grep" }
+find_group["b"] = { builtin.buffers, "Find Buffers" }
+find_group["h"] = { builtin.help_tags, "Help Tags" }
 
 -- NeoTree
-mappings.registerKey('<leader>e', '<cmd>Neotree toggle reveal_force_cwd<cr>', { desc = '󱏒 Toggle NeoTree' })
+mappings.register_key("<leader>e", "<cmd>Neotree toggle reveal_force_cwd<cr>", { desc = "󱏒 Toggle NeoTree" })
 
 -- Buffers
-local bufferGroup = mappings.getGroupPrefix('<leader>', 'b')
-bufferGroup['d'] = { '<cmd>bd<cr>', 'Delete Current Buffer (Alt-x)' }
-bufferGroup['D'] = { '<cmd>1,.-bd | .+1,$bd<cr>', 'Delete Other Buffers (Alt-X)' }
-bufferGroup['p'] = { '<cmd>bp<cr>', 'Go to Previous Buffer (Alt-j)' }
-bufferGroup['n'] = { '<cmd>bn<cr>', 'Go to Next Buffer (Alt-l)' }
-bufferGroup['t'] = { '<cmd>b#<cr>', 'Toggle Last Active Buffer (Alt-o)' }
+local buffer_group = mappings.get_group_prefix("<leader>", "b")
+buffer_group["d"] = { "<cmd>bd<cr>", "Delete Current Buffer (Alt-x)" }
+buffer_group["D"] = { "<cmd>1,.-bd | .+1,$bd<cr>", "Delete Other Buffers (Alt-X)" }
+buffer_group["p"] = { "<cmd>bp<cr>", "Go to Previous Buffer (Alt-j)" }
+buffer_group["n"] = { "<cmd>bn<cr>", "Go to Next Buffer (Alt-l)" }
+buffer_group["t"] = { "<cmd>b#<cr>", "Toggle Last Active Buffer (Alt-o)" }
 
-mappings.registerKey('<A-x>', '<cmd>bd<cr>', { desc = 'Delete Current Buffer' })
-mappings.registerKey('<A-X>', '<cmd>1,.-bd | .+1,$bd<cr>', { desc = 'Delete Other Buffers' })
-mappings.registerKey('<A-h>', '<cmd>bp<cr>', { desc = 'Go to Previous Buffer' })
-mappings.registerKey('<A-l>', '<cmd>bn<cr>', { desc = 'Go to Next Buffer' })
-mappings.registerKey('<A-o>', '<cmd>b#<cr>', { desc = 'Toggle Last Active Buffer' })
-mappings.registerKey('<A-t>', '<cmd>tabnew<cr>', { desc = 'Create New Tab' })
-mappings.registerKey('<A-w>', '<cmd>tabc<cr>', { desc = 'Close Tab' })
+mappings.register_key("<A-x>", "<cmd>bd<cr>", { desc = "Delete Current Buffer" })
+mappings.register_key("<A-X>", "<cmd>1,.-bd | .+1,$bd<cr>", { desc = "Delete Other Buffers" })
+mappings.register_key("<A-h>", "<cmd>bp<cr>", { desc = "Go to Previous Buffer" })
+mappings.register_key("<A-l>", "<cmd>bn<cr>", { desc = "Go to Next Buffer" })
+mappings.register_key("<A-o>", "<cmd>b#<cr>", { desc = "Toggle Last Active Buffer" })
+mappings.register_key("<A-t>", "<cmd>tabnew<cr>", { desc = "Create New Tab" })
+mappings.register_key("<A-w>", "<cmd>tabc<cr>", { desc = "Close Tab" })
 
 -- Plugin Manager
-local pluginGroup = mappings.getGroupPrefix('<leader>', 'p')
-pluginGroup['m'] = { '<cmd>Mason<cr>', 'Open Mason LSP Plugin Manager' }
-pluginGroup['l'] = { '<cmd>Lazy<cr>', 'Open Lazy Plugin Manager' }
+local plugin_group = mappings.get_group_prefix("<leader>", "p")
+plugin_group["m"] = { "<cmd>Mason<cr>", "Open Mason LSP Plugin Manager" }
+plugin_group["l"] = { "<cmd>Lazy<cr>", "Open Lazy Plugin Manager" }
 
-mappings.registerKey('<leader>h', '<cmd>Alpha<cr>', { desc = 'Open Dashboard' })
-
--- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
-vim.defer_fn(function()
-    require('nvim-treesitter.configs').setup {
-        ensure_installed = {
-            'java',
-            'lua',
-            'rust',
-            'javascript',
-            'typescript',
-            'vimdoc',
-            'vim',
-            'bash'
-        },
-
-        auto_install = false,
-
-        highlight = { enable = true },
-        indent = { enable = true },
-        incremental_selection = {
-            enable = true,
-            keymaps = {
-                init_selection = '<c-space>',
-                node_incremental = '<c-space>',
-                scope_incremental = '<c-s>',
-                node_decremental = '<M-space>',
-            },
-        },
-        textobjects = {
-            select = {
-                enable = true,
-                lookahead = true,
-                keymaps = {
-                    ['aa'] = '@parameter.outer',
-                    ['ia'] = '@parameter.inner',
-                    ['af'] = '@function.outer',
-                    ['if'] = '@function.inner',
-                    ['ac'] = '@class.outer',
-                    ['ic'] = '@class.inner',
-                },
-            },
-            move = {
-                enable = true,
-                set_jumps = true,
-                goto_next_start = {
-                    [']m'] = '@function.outer',
-                    [']]'] = '@class.outer',
-                },
-                goto_next_end = {
-                    [']M'] = '@function.outer',
-                    [']['] = '@class.outer',
-                },
-                goto_previous_start = {
-                    ['[m'] = '@function.outer',
-                    ['[['] = '@class.outer',
-                },
-                goto_previous_end = {
-                    ['[M'] = '@function.outer',
-                    ['[]'] = '@class.outer',
-                },
-            },
-        },
-    }
-end, 0)
+mappings.register_key("<leader>h", "<cmd>Alpha<cr>", { desc = "Open Dashboard" })
 
 -- Oil
-mappings.registerKey('-', '<cmd>Oil<cr>', { desc = '󰏇 Open Parent Dir in Oil' })
+mappings.register_key("-", "<cmd>Oil<cr>", { desc = "󰏇 Open Parent Dir in Oil" })
 
 -- ToggleTerm
 require("toggleterm").setup {}
-local Terminal = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new({ cmd = 'lazygit', hiddent = true, direction = 'float' })
-function lazygit_toggle()
+local terminal = require("toggleterm.terminal").Terminal
+local lazygit = terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
+function Lazygit_Toggle()
     lazygit:toggle()
 end
 
-local terminalGroup = mappings.getGroupPrefix('<leader>', 't')
-terminalGroup['l'] = { '<cmd>lua lazygit_toggle()<cr>', 'ToggleTerm lazygit' }
-terminalGroup['f'] = { '<cmd>ToggleTerm direction=float<cr>', 'ToggleTerm float' }
-terminalGroup['h'] = { '<cmd>ToggleTerm direction=horizontal<cr>', 'ToggleTerm Horizontal' }
-terminalGroup['v'] = { '<cmd>ToggleTerm direction=vertical<cr>', 'ToggleTerm Vertical' }
-mappings.registerKey('<F7>', '<cmd>ToggleTermToggleAll<cr>', { desc = 'Toggle Terminal' })
-mappings.registerKey('<F7>', '<cmd>ToggleTermToggleAll<cr>', { desc = 'Toggle Terminal', mode = 't' })
+local terminal_group = mappings.get_group_prefix("<leader>", "t")
+terminal_group["l"] = { "<cmd>lua lazygit_toggle()<cr>", "ToggleTerm lazygit" }
+terminal_group["f"] = { "<cmd>ToggleTerm direction=float<cr>", "ToggleTerm float" }
+terminal_group["h"] = { "<cmd>ToggleTerm direction=horizontal<cr>", "ToggleTerm Horizontal" }
+terminal_group["v"] = { "<cmd>ToggleTerm direction=vertical<cr>", "ToggleTerm Vertical" }
+mappings.register_key("<F7>", "<cmd>ToggleTermToggleAll<cr>", { desc = "Toggle Terminal" })
+mappings.register_key("<F7>", "<cmd>ToggleTermToggleAll<cr>", { desc = "Toggle Terminal", mode = "t" })
 
 -- [[ Configure LSP ]]
--- Neodev
-require("neodev").setup()
--- Mason
-require("mason").setup()
-require("mason-lspconfig").setup()
 
 -- CMP
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-require('cmp_nvim_lsp').default_capabilities(capabilities)
-
-local servers = {
-    lua_ls = {
-        Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-            hint = { enable = true }
-        }
-    }
-}
-
-local mason_lspconfig = require 'mason-lspconfig'
-mason_lspconfig.setup {
-    ensure_installed = vim.tbl_keys(servers)
-}
-
-local cmp = require 'cmp'
-local luasnip = require 'luasnip'
-require('luasnip.loaders.from_vscode').lazy_load()
-luasnip.config.setup {}
-
-mason_lspconfig.setup_handlers {
-    function(server_name)
-        require('lspconfig')[server_name].setup {
-            capabilities = capabilities,
-            on_attach = require("config.lsp-keymaps").registerLspKeymaps,
-            settings = servers[server_name],
-            filetypes = (servers[server_name] or {}).filetypes,
-        }
-    end,
-    ['jdtls'] = function()
-    end,
-    ['tsserver'] = function()
-    end,
-}
-
-cmp.setup {
-    snippet = {
-        expand = function(args)
-            luasnip.lsp_expand(args.body)
-        end,
-    },
-    completion = {
-        completeopt = 'menu,menuone,noinsert',
-    },
-    mapping = cmp.mapping.preset.insert {
-        ['<C-n>'] = cmp.mapping.select_next_item(),
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete {},
-        ['<CR>'] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
-        },
-        ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            elseif luasnip.expand_or_locally_jumpable() then
-                luasnip.expand_or_jump()
-            else
-                fallback()
-            end
-        end, { 'i', 's' }),
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            elseif luasnip.locally_jumpable(-1) then
-                luasnip.jump(-1)
-            else
-                fallback()
-            end
-        end, { 'i', 's' }),
-    },
-    sources = {
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
-        { name = 'path' },
-    },
-}
+require("cmp_nvim_lsp").default_capabilities(capabilities)
+require("luasnip.loaders.from_vscode").lazy_load()
 
 
 -- Vim Built-In Functions
-mappings.registerKey('<C-s>', '<cmd>w<cr>', { desc = 'Write' })
-mappings.registerKey('<C-q>q', '<cmd>confirm qall<cr>', { desc = 'Confirm Quit All' })
-mappings.registerKey('<C-q>w', '<cmd>confirm q<cr>', { desc = 'Confirm Quit Window' })
-mappings.registerKey('<C-q>b', '<cmd>confirm bd<cr>', { desc = 'Confirm Quit Buffer' })
-mappings.registerKey('<C-q>f', '<cmd>qa!<cr>', { desc = 'Force Quit' })
-mappings.registerKey('|', '<cmd>vsplit<cr>', { desc = 'Vertical Split' })
-mappings.registerKey('\\', '<cmd>split<cr>', { desc = 'Horizontal Split' })
-mappings.registerKey('<Esc>', '<cmd>noh<cr>', { desc = 'Clear Highlights' })
-mappings.registerKey('<C-h>', '<C-w>h', { desc = 'Window Left' })
-mappings.registerKey('<C-l>', '<C-w>l', { desc = 'Window Right' })
-mappings.registerKey('<C-k>', '<C-w>k', { desc = 'Window Up' })
-mappings.registerKey('<C-j>', '<C-w>j', { desc = 'Window Down' })
-mappings.registerKey('<C-A-j>', ':t.<cr>k', { desc = 'Copy Line Down' })
-mappings.registerKey('<C-A-k>', ':t.<cr>', { desc = 'Copy Line Up' })
-mappings.registerKey('<C-S-j>', ':m .+1<cr>', { desc = 'Move Line Down' })
-mappings.registerKey('<C-S-k>', ':m .-2<cr>', { desc = 'Move Line Up' })
+mappings.register_key("<C-s>", "<cmd>w<cr>", { desc = "Write" })
+mappings.register_key("<C-q>q", "<cmd>confirm qall<cr>", { desc = "Confirm Quit All" })
+mappings.register_key("<C-q>w", "<cmd>confirm q<cr>", { desc = "Confirm Quit Window" })
+mappings.register_key("<C-q>b", "<cmd>confirm bd<cr>", { desc = "Confirm Quit Buffer" })
+mappings.register_key("<C-q>f", "<cmd>qa!<cr>", { desc = "Force Quit" })
+mappings.register_key("|", "<cmd>vsplit<cr>", { desc = "Vertical Split" })
+mappings.register_key("\\", "<cmd>split<cr>", { desc = "Horizontal Split" })
+mappings.register_key("<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear Highlights" })
+mappings.register_key("<C-h>", "<C-w>h", { desc = "Window Left" })
+mappings.register_key("<C-l>", "<C-w>l", { desc = "Window Right" })
+mappings.register_key("<C-k>", "<C-w>k", { desc = "Window Up" })
+mappings.register_key("<C-j>", "<C-w>j", { desc = "Window Down" })
+mappings.register_key("<C-A-j>", ":t.<cr>k", { desc = "Copy Line Down" })
+mappings.register_key("<C-A-k>", ":t.<cr>", { desc = "Copy Line Up" })
+mappings.register_key("<C-S-j>", ":m .+1<cr>", { desc = "Move Line Down" })
+mappings.register_key("<C-S-k>", ":m .-2<cr>", { desc = "Move Line Up" })
 
-require("utils.mappings").registerKeymaps()
+mappings.register_keymaps()
