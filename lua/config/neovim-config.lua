@@ -2,7 +2,6 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.o.termguicolors = true
 vim.o.undofile = true
-vim.o.clipboard = 'unnamedplus'
 vim.o.completeopt = 'menuone,noselect'
 vim.o.showmode = false
 vim.o.scrolloff = 20

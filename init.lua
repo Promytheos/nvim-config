@@ -85,23 +85,31 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 require("cmp_nvim_lsp").default_capabilities(capabilities)
 require("luasnip.loaders.from_vscode").lazy_load()
 
-
 -- Vim Built-In Functions
+mappings.register_key("<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear Highlights" })
 mappings.register_key("<C-s>", "<cmd>w<cr>", { desc = "Write" })
+mappings.register_key("<C-S-s>", "<cmd>wa<cr>", { desc = "Write All" })
 mappings.register_key("<C-q>q", "<cmd>confirm qall<cr>", { desc = "Confirm Quit All" })
 mappings.register_key("<C-q>w", "<cmd>confirm q<cr>", { desc = "Confirm Quit Window" })
 mappings.register_key("<C-q>b", "<cmd>confirm bd<cr>", { desc = "Confirm Quit Buffer" })
 mappings.register_key("<C-q>f", "<cmd>qa!<cr>", { desc = "Force Quit" })
+
 mappings.register_key("|", "<cmd>vsplit<cr>", { desc = "Vertical Split" })
 mappings.register_key("\\", "<cmd>split<cr>", { desc = "Horizontal Split" })
-mappings.register_key("<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear Highlights" })
+
 mappings.register_key("<C-h>", "<C-w>h", { desc = "Window Left" })
 mappings.register_key("<C-l>", "<C-w>l", { desc = "Window Right" })
 mappings.register_key("<C-k>", "<C-w>k", { desc = "Window Up" })
 mappings.register_key("<C-j>", "<C-w>j", { desc = "Window Down" })
-mappings.register_key("<C-A-j>", ":t.<cr>k", { desc = "Copy Line Down" })
-mappings.register_key("<C-A-k>", ":t.<cr>", { desc = "Copy Line Up" })
-mappings.register_key("<C-S-j>", ":m .+1<cr>", { desc = "Move Line Down" })
+
+mappings.register_key("<C-A-k>", ":t .-1<cr>", { desc = "Copy Line Up" })
+mappings.register_key("<C-A-k>", ":'<,'>t '<-1<cr>gv", { desc = "Copy Lines Up", mode = 'v' })
+mappings.register_key("<C-A-j>", ":t .<cr>", { desc = "Copy Line Down" })
+mappings.register_key("<C-A-j>", ":'<,'>t '><cr>gv", { desc = "Copy Lines Down", mode = 'v' })
+
 mappings.register_key("<C-S-k>", ":m .-2<cr>", { desc = "Move Line Up" })
+mappings.register_key("<C-S-k>", ":'<,'>m '<-2<cr>gv", { desc = "Move Lines Up", mode = 'v' })
+mappings.register_key("<C-S-j>", ":m .+1<cr>", { desc = "Move Line Down" })
+mappings.register_key("<C-S-j>", ":'<,'>m '>+1<cr>gv", { desc = "Move Lines Down", mode = 'v' })
 
 mappings.register_keymaps()
