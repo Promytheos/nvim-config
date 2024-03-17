@@ -14,6 +14,7 @@ return {
             -- TODO: Look at moving extensions into config
             require('mini.surround').setup()
             require("mini.ai").setup(miniConfig.ai)
+            require("mini.bufremove").setup()
         end
     },
     {

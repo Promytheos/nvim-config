@@ -44,7 +44,7 @@ buffer_group["p"] = { "<cmd>bp<cr>", "Go to Previous Buffer (Alt-j)" }
 buffer_group["n"] = { "<cmd>bn<cr>", "Go to Next Buffer (Alt-l)" }
 buffer_group["t"] = { "<cmd>b#<cr>", "Toggle Last Active Buffer (Alt-o)" }
 
-mappings.register_key("<A-x>", "<cmd>bd<cr>", { desc = "Delete Current Buffer" })
+mappings.register_key("<A-x>", "<cmd>:lua require(\"mini.bufremove\").delete(0)<cr>", { desc = "Delete Current Buffer" })
 mappings.register_key("<A-X>", "<cmd>1,.-bd | .+1,$bd<cr>", { desc = "Delete Other Buffers" })
 mappings.register_key("<A-h>", "<cmd>bp<cr>", { desc = "Go to Previous Buffer" })
 mappings.register_key("<A-l>", "<cmd>bn<cr>", { desc = "Go to Next Buffer" })
