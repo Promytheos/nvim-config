@@ -7,7 +7,7 @@ return {
         end,
     },
     completion = {
-        completeopt = 'menu,menuone,noinsert',
+        completeopt = 'menu,menuone,noselect',
     },
     mapping = cmp.mapping.preset.insert {
         ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -42,6 +42,15 @@ return {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path' },
+        { name = "buffer", keyword_length = 3 },
+        { name = 'nvim_lsp_signature_help' },
+    },
+    formatting = {
+        format = require("lspkind").cmp_format({
+            mode = 'symbol',
+            maxWidth = 50, -- can also use calc such as vim.o.col * 0.5
+            show_labelDetails = true,
+        })
     },
 
 }

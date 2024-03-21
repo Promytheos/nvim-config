@@ -11,21 +11,21 @@ return {
     },
     {
         'lewis6991/gitsigns.nvim',
-        opts = {
-            signs = {
-                add = { text = '+' },
-                change = { text = '~' },
-                delete = { text = '_' },
-                topdelete = { text = '‾' },
-                changedelete = { text = '~' },
-            },
-        },
+        config = function()
+            require("gitsigns").setup(require("config.gitsigns-config"))
+        end
     },
     {
-        'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
-        opts = require("config.lualine-config")
+        'stevearc/dressing.nvim', opts = {},
     },
+    {
+        'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons', opts = {}
+    },
+    -- {
+    --     'nvim-lualine/lualine.nvim',
+    --     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    --     opts = require("config.lualine-config")
+    -- },
     {
         'folke/tokyonight.nvim',
         lazy = false,
@@ -45,5 +45,12 @@ return {
         opts = {
             signs = false
         }
+    },
+    {
+        'folke/trouble.nvim',
+        dependencies = {
+            'nvim-tree/nvim-web-devicons'
+        },
+        opts = {},
     },
 }

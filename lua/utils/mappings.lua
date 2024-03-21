@@ -11,6 +11,7 @@ local groups = {
             b = { desc = '󰓩 Buffers' },
             d = { desc = ' Debugger' },
             t = { desc = ' Terminal' },
+            g = { desc = ' Git'}
         },
         opts = { prefix = '<leader>' }
     },
