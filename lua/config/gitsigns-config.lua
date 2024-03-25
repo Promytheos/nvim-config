@@ -11,7 +11,7 @@ return {
     current_line_blame_opts = {},
     on_attach = function (bufnr)
         local gs = package.loaded.gitsigns
-        local gitGroup = require("utils.mappings").get_group_prefix('<leader>', 'l')
+        local gitGroup = require("utils.mappings").get_group_prefix('<leader>', 'g')
 
         gitGroup['b'] = { gs.toggle_current_line_blame, 'Toggle Current Line Blame' }
         gitGroup['B'] = { function ()
