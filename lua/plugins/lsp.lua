@@ -1,7 +1,23 @@
 return {
     {
+        "folke/neodev.nvim",
+        config = function()
+            require("neodev").setup({
+                library = {
+                    enabled = true,
+                    runtime = true,
+                    types = true,
+                    plugins = true,
+                    -- plugins = {} add list of stuffs like plenary and nui
+                },
+                lspconfig = true
+            })
+        end
+    },
+    {
         "hrsh7th/nvim-cmp",
         dependencies = {
+            "folke/neodev.nvim",
             -- Snippet Engine & its associated nvim-cmp source
             "L3MON4D3/LuaSnip",
             "saadparwaiz1/cmp_luasnip",
@@ -16,7 +32,7 @@ return {
             -- Adds a number of user-friendly snippets
             "rafamadriz/friendly-snippets",
         },
-        config = function ()
+        config = function()
             local luasnip = require("luasnip")
             luasnip.setup {}
 
@@ -29,6 +45,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
         dependencies = {
             "nvim-treesitter/nvim-treesitter-textobjects",
+            "nvim-treesitter/nvim-treesitter-context",
         },
         build = ":TSUpdate",
         config = function()

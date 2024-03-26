@@ -19,7 +19,7 @@ require("lazy").setup({
     { import = "plugins" },
 })
 
-vim.cmd [[colorscheme tokyonight-night]]
+vim.cmd [[colorscheme catppuccin-mocha]]
 
 -- TODO: Move to mappings file
 local mappings = require("utils.mappings")
@@ -97,10 +97,10 @@ mappings.register_key("<C-q>f", "<cmd>qa!<cr>", { desc = "Force Quit" })
 mappings.register_key("|", "<cmd>vsplit<cr>", { desc = "Vertical Split" })
 mappings.register_key("\\", "<cmd>split<cr>", { desc = "Horizontal Split" })
 
-mappings.register_key("<C-h>", "<C-w>h", { desc = "Window Left" })
-mappings.register_key("<C-l>", "<C-w>l", { desc = "Window Right" })
-mappings.register_key("<C-k>", "<C-w>k", { desc = "Window Up" })
-mappings.register_key("<C-j>", "<C-w>j", { desc = "Window Down" })
+-- mappings.register_key("<C-h>", "<C-w>h", { desc = "Window Left" })
+-- mappings.register_key("<C-l>", "<C-w>l", { desc = "Window Right" })
+-- mappings.register_key("<C-k>", "<C-w>k", { desc = "Window Up" })
+-- mappings.register_key("<C-j>", "<C-w>j", { desc = "Window Down" })
 
 mappings.register_key("<C-A-k>", ":t .-1<cr>", { desc = "Copy Line Up" })
 mappings.register_key("<C-A-k>", ":'<,'>t '<-1<cr>gv", { desc = "Copy Lines Up", mode = 'v' })

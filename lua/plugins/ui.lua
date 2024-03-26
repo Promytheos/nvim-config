@@ -21,16 +21,14 @@ return {
     {
         'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons', opts = {}
     },
-    -- {
-    --     'nvim-lualine/lualine.nvim',
-    --     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    --     opts = require("config.lualine-config")
-    -- },
     {
-        'folke/tokyonight.nvim',
+        "catppuccin/nvim",
         lazy = false,
+        name = "catppuccin",
         priority = 1000,
-        opts = {}
+        config = function()
+            require("catppuccin").setup(require("config.catppuccin-config"))
+        end
     },
     {
         'folke/which-key.nvim',
