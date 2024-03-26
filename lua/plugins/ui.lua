@@ -22,6 +22,25 @@ return {
         'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons', opts = {}
     },
     {
+        'b0o/incline.nvim',
+        config = function()
+            require('incline').setup()
+        end,
+        -- Optional: Lazy load Incline
+        event = 'VeryLazy',
+    },
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        config = function()
+            local lualine_require = require("lualine_require")
+            lualine_require.require = require
+
+            vim.o.laststatus = vim.g.lualine_laststatus
+            require('lualine').setup(require("config.lualine-config"))
+        end
+    },
+    {
         "catppuccin/nvim",
         lazy = false,
         name = "catppuccin",

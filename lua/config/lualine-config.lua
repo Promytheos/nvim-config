@@ -1,98 +1,63 @@
-local M = {
+return {
     options = {
-        icons_enabled = true,
-        theme = 'horizon',
-        component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
-        disabled_filetypes = {
-            statusline = { 'neo-tree' },
-            winbar = { 'neo-tree' },
-        },
-        ignore_focus = {},
-        always_divide_middle = true,
-        globalstatus = false,
-        refresh = {
-            statusline = 1000,
-            tabline = 1000,
-            winbar = 1000,
-        }
+      theme = "auto",
+      globalstatus = true,
+      disabled_filetypes = { statusline = { "dashboard", "alpha", "starter" } },
     },
     sections = {
-        lualine_a = { 'mode' },
-        lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { 'filename' },
-        lualine_x = { 'encoding', 'fileformat', 'filetype' },
-        lualine_y = { 'progress', 'location' },
-        lualine_z = {}
-    },
-    inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = { 'filename' },
-        lualine_x = { 'location' },
-        lualine_y = {},
-        lualine_z = {}
-    },
-    tabline = {},
-    winbar = {
-        lualine_a = {
-            {
-                'buffers',
-                show_filename_only = true,   -- Shows shortened relative path when set to false.
-                hide_filename_extension = false, -- Hide filename extension when set to true.
-                show_modified_status = true, -- Shows indicator when the buffer is modified.
+      lualine_a = { "mode" },
+      lualine_b = { "branch" },
 
-                mode = 0,                    -- 0: Shows buffer name
-                -- 1: Shows buffer index
-                -- 2: Shows buffer name + buffer index
-                -- 3: Shows buffer number
-                -- 4: Shows buffer name + buffer number
-
-                max_length = vim.o.columns * 2 / 3, -- Maximum width of buffers component,
-                -- it can also be a function that returns
-                -- the value of `max_length` dynamically.
-                filetype_names = {
-                    TelescopePrompt = 'Telescope',
-                    dashboard = 'Dashboard',
-                    packer = 'Packer',
-                    fzf = 'FZF',
-                    alpha = 'Alpha'
-                }, -- Shows specific buffer name for that filetype ( { `filetype` = `buffer_name`, ... } )
-
-                -- Automatically updates active buffer color to match color of omther components (will be overidden if buffers_color is set)
-                use_mode_colors = false,
-
-                buffers_color = {
-                    -- Same values as the general color option can be used here.
-                    -- active = 'lualine_{section}_normal', -- Color for active buffer.
-                    inactive = 'lualine_b_active', -- Color for inactive buffer.
-                },
-
-                symbols = {
-                    modified = ' ●', -- Text to show when the buffer is modified
-                    alternate_file = '#', -- Text to show to identify the alternate file
-                    directory = '', -- Text to show when the buffer is a directory
-                },
-            },
+      lualine_c = {
+        "filename",
+        {
+          "diagnostics",
         },
-        lualine_b = {},
-        lualine_c = {},
-        lualine_x = {},
-        lualine_y = {
-            { 'datetime', style = '%H:%M' },
-            { 'datetime', style = '%d-%m-%y' }
+        { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+      },
+      lualine_x = {
+        -- stylua: ignore
+        {
+          function() return require("noice").api.status.command.get() end,
+          cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
         },
-        lualine_z = {}
+        -- stylua: ignore
+        {
+          function() return require("noice").api.status.mode.get() end,
+          cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+        },
+        -- stylua: ignore
+        {
+          function() return "  " .. require("dap").status() end,
+          cond = function () return package.loaded["dap"] and require("dap").status() ~= "" end,
+        },
+        {
+          require("lazy.status").updates,
+          cond = require("lazy.status").has_updates,
+        },
+        {
+          "diff",
+          source = function()
+            local gitsigns = vim.b.gitsigns_status_dict
+            if gitsigns then
+              return {
+                added = gitsigns.added,
+                modified = gitsigns.changed,
+                removed = gitsigns.removed,
+              }
+            end
+          end,
+        },
+      },
+      lualine_y = {
+        { "progress", separator = " ", padding = { left = 1, right = 0 } },
+        { "location", padding = { left = 0, right = 1 } },
+      },
+      lualine_z = {
+        function()
+          return " " .. os.date("%R")
+        end,
+      },
     },
-    inactive_winbar = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = { 'filename' },
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {}
-    },
-    extensions = {}
-}
-
-return M
+    extensions = { "neo-tree", "lazy" },
+  }
