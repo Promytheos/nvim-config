@@ -31,7 +31,7 @@ return {
     },
     {
         'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        dependencies = { 'nvim-tree/nvim-web-devicons', 'folke/noice.nvim' },
         config = function()
             local lualine_require = require("lualine_require")
             lualine_require.require = require
@@ -48,6 +48,14 @@ return {
         config = function()
             require("catppuccin").setup(require("config.catppuccin-config"))
         end
+    },
+    {
+        'folke/noice.nvim',
+        event = "VeryLazy",
+        opts = {},
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+        },
     },
     {
         'folke/which-key.nvim',

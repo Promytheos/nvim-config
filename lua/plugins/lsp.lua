@@ -58,10 +58,8 @@ return {
         dependencies = {
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
-            "j-hui/fidget.nvim",
         },
         config = function()
-            require("fidget").setup({})
             require("mason").setup()
             local mason_config = require("config.mason-config")
             require("mason-lspconfig").setup(mason_config)

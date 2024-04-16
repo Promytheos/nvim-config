@@ -12,6 +12,7 @@ M.register_lsp_keymaps = function()
     lsp_group['w'] = { require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace Symbols' }
     lsp_group['i'] = { '<cmd>lua vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())<cr>',
         'Toggle Inlay Hints' }
+    lsp_group['I'] = { '<cmd>LspInfo<cr>', 'LSP Info' }
     lsp_group['h'] = { vim.lsp.buf.signature_help, 'Signature Documentation' }
     lsp_group['d'] = { vim.diagnostic.open_float, 'Open Diagnostics' }
     lsp_group['q'] = { vim.diagnostic.setloclist, 'Add Buffer Diagnostics to Quickfix' }
