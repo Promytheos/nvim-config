@@ -1,6 +1,5 @@
 return {
     { 'numToStr/Comment.nvim', opts = {} },
-    'tpope/vim-sleuth',
     {
         'windwp/nvim-autopairs',
         event = 'InsertEnter',

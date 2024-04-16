@@ -1,6 +1,8 @@
 return {
     options = {
       theme = "auto",
+      component_separators = { left = '', right = ''},
+      section_separators = { left = '', right = ''},
       globalstatus = true,
       disabled_filetypes = { statusline = { "dashboard", "alpha", "starter" } },
     },
@@ -10,10 +12,10 @@ return {
 
       lualine_c = {
         "filename",
+        { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
         {
           "diagnostics",
         },
-        { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
       },
       lualine_x = {
         -- stylua: ignore
