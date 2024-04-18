@@ -7,7 +7,10 @@ return {
         'typescript',
         'vimdoc',
         'vim',
-        'bash'
+        'bash',
+        'regex',
+        'markdown',
+        'markdown_inline',
     },
 
     auto_install = true,
