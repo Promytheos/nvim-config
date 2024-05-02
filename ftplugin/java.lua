@@ -130,8 +130,6 @@ local config = {
     init_options = {
         bundles = {
             vim.fn.expand "$MASON/share/java-debug-adapter/com.microsoft.java.debug.plugin.jar",
-            -- unpack remaining bundles
-            (table.unpack)(vim.split(vim.fn.glob "$MASON/share/java-test/*.jar", "\n", {})),
         },
     },
 }
