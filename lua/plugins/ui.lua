@@ -19,7 +19,7 @@ return {
         'stevearc/dressing.nvim', opts = {},
     },
     {
-        'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons', opts = {}
+        'akinsho/bufferline.nvim', dependencies = 'nvim-tree/nvim-web-devicons', opts = {}
     },
     {
         'b0o/incline.nvim',
