@@ -1,5 +1,5 @@
 return {
-    ai = {
-        n_lines = 500
-    }
+  ai = {
+    n_lines = 500
+  }
 }

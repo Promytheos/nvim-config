@@ -19,9 +19,6 @@ return {
         'stevearc/dressing.nvim', opts = {},
     },
     {
-        'akinsho/bufferline.nvim', dependencies = 'nvim-tree/nvim-web-devicons', opts = {}
-    },
-    {
         'b0o/incline.nvim',
         config = function()
             require('incline').setup()
@@ -70,4 +67,11 @@ return {
         },
         opts = {},
     },
+    {
+        'tris203/precognition.nvim',
+        event = 'VeryLazy',
+        opts = {
+            startVisible = false,
+        },
+    }
 }
