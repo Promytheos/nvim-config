@@ -3,20 +3,20 @@ require("config.neovim-config")
 -- LAZY SETUP ---[[ - ]]
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system {
-        "git",
-        "clone",
-        "--filter=blob::none",
-        "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable", -- latest stable release
-        lazypath,
-    }
+  vim.fn.system {
+    "git",
+    "clone",
+    "--filter=blob::none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  }
 end
 vim.opt.rtp:prepend(lazypath)
 
 -- PLUGINS CONFIG --
 require("lazy").setup({
-    { import = "plugins" },
+  { import = "plugins" },
 })
 
 vim.cmd [[colorscheme catppuccin-mocha]]
@@ -67,7 +67,7 @@ require("toggleterm").setup {}
 local terminal = require("toggleterm.terminal").Terminal
 local lazygit = terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
 function Lazygit_Toggle()
-    lazygit:toggle()
+  lazygit:toggle()
 end
 
 local terminal_group = mappings.get_group_prefix("<leader>", "t")
@@ -111,5 +111,7 @@ mappings.register_key("<C-S-k>", ":m .-2<cr>", { desc = "Move Line Up" })
 mappings.register_key("<C-S-k>", ":'<,'>m '<-2<cr>gv", { desc = "Move Lines Up", mode = 'v' })
 mappings.register_key("<C-S-j>", ":m .+1<cr>", { desc = "Move Line Down" })
 mappings.register_key("<C-S-j>", ":'<,'>m '>+1<cr>gv", { desc = "Move Lines Down", mode = 'v' })
+
+mappings.register_key("<C-i>", "<cmd>Precognition peek<cr>");
 
 mappings.register_keymaps()
