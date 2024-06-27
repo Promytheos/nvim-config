@@ -32,6 +32,8 @@ find_group["f"] = { builtin.find_files, "Find Files" }
 find_group["g"] = { builtin.live_grep, "Live Grep" }
 find_group["b"] = { builtin.buffers, "Find Buffers" }
 find_group["h"] = { builtin.help_tags, "Help Tags" }
+find_group["o"] = { builtin.oldfiles, "Recent Files" }
+find_group["?"] = { "<cmd>Telescope builtin<cr>", "All Commands" }
 
 -- NeoTree
 mappings.register_key("<leader>e", "<cmd>Neotree toggle reveal_force_cwd<cr>", { desc = "󱏒 Toggle NeoTree" })

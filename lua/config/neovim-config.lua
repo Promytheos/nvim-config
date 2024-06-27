@@ -9,14 +9,16 @@ vim.o.breakindent = true
 vim.o.signcolumn = 'yes'
 vim.o.cursorline = true
 
+vim.opt.foldmethod = 'marker'
+
 -- Line numbers
 vim.o.number = true
 vim.o.relativenumber = true
 
 -- Tab stop defaults
 vim.o.expandtab = true
-vim.o.shiftwidth = 4
-vim.o.softtabstop = 4
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
 
 -- Case insensitive search
 vim.o.ignorecase = true
