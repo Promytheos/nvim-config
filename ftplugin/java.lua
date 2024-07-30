@@ -26,9 +26,9 @@ local config = {
     "--add-opens",
     "java.base/java.lang=ALL-UNNAMED",
     "-jar",
-    vim.fn.glob("/opt/homebrew/Cellar/jdtls/1.34.0/libexec/plugins/org.eclipse.equinox.launcher_*.jar"),
+    vim.fn.glob("/opt/homebrew/Cellar/jdtls/1.37.0/libexec/plugins/org.eclipse.equinox.launcher_*.jar"),
     "-configuration",
-    "/opt/homebrew/Cellar/jdtls/1.34.0/libexec/config_mac",
+    "/opt/homebrew/Cellar/jdtls/1.37.0/libexec/config_mac",
     "-data",
     workspace_dir,
   },
@@ -82,7 +82,6 @@ local config = {
         enabled = true,
         settings = {
           url = vim.fn.expand "$HOME/.local/share/eclipse/bgs-code-style.xml",
-          profile = "BGSCodeStyle",
         },
         tabSize = 4,
         insertSpaces = true,
@@ -96,6 +95,9 @@ local config = {
       signatureHelp = {
         enabled = true,
       },
+      saveActions = {
+        organizeImports = true,
+      },
       completion = {
         favoriteStaticMembers = {
           "org.hamcrest.MatcherAssert.assertThat",
@@ -106,11 +108,31 @@ local config = {
           "java.util.Objects.requireNonNullElse",
           "org.mockito.Mockito.*",
         },
+        importOrder = {
+          "java",
+          "javax",
+          "com",
+          "org",
+          "junit",
+          "junitx",
+          "lombok",
+          "gamesys",
+          "gamesys.baltics.games",
+          "",
+          "#com",
+          "#org",
+          "#junit",
+          "#junitx",
+          "#lombok",
+          "#gamesys",
+          "#gamesys.baltics.games",
+          "#",
+        }
       },
       sources = {
         organizeImports = {
           starThreshold = 9999,
-          staticStarThreshold = 9999,
+          staticStarThreshold = 2,
         },
       },
     },
