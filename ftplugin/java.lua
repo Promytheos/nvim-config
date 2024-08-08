@@ -138,7 +138,8 @@ local config = {
     },
   },
   on_attach = function()
-    require("config.lsp-keymaps").register_lsp_keymaps()
+    local keymaps = require("config.lsp-keymaps")
+    require("which-key").add(keymaps)
   end,
 
 
