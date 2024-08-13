@@ -17,7 +17,22 @@ return {
     "<leader>b",
     group = "Buffers",
     expand = function()
-      return require("which-key.extras").expand.buf()
+      local ret = {}
+      local extras = require("which-key.extras")
+      local utils = require("utilities.utils")
+
+      for _, buf in ipairs(extras.bufs()) do
+        local name = extras.bufname(buf)
+        ret[#ret + 1] = {
+          "",
+          function()
+            vim.api.nvim_set_current_buf(buf)
+          end,
+          desc = utils.get_file_name(name, '/'),
+          icon = { cat = "file", name = name },
+        }
+      end
+      return extras.add_keys(ret)
     end
   },
   { "<A-x>", "<cmd>:lua require(\"mini.bufremove\").delete(0)<cr>", desc = "Delete Current Buffer" },
