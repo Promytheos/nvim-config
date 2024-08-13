@@ -21,7 +21,5 @@ return {
     end,
     ['jdtls'] = function()
     end,
-    ['tsserver'] = function()
-    end,
   }
 }

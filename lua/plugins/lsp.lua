@@ -66,8 +66,4 @@ return {
     end
   },
   { "mfussenegger/nvim-jdtls" },
-  {
-    "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-  },
 }
