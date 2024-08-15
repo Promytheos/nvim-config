@@ -20,19 +20,33 @@ return {
       local ret = {}
       local extras = require("which-key.extras")
       local utils = require("utilities.utils")
+      local numbered_index = 0
 
       for _, buf in ipairs(extras.bufs()) do
         local name = extras.bufname(buf)
-        ret[#ret + 1] = {
-          "",
+        local file_name = utils.get_file_name(name, '/')
+        local index = 1
+        local key = string.sub(file_name, index, index)
+
+        while (ret[key] ~= nil) do
+          if index >= #file_name then
+            key = string(numbered_index)
+            numbered_index = numbered_index + 1
+            break
+          end
+          index = index + 1
+          key = string.sub(file_name, index, index)
+        end
+
+        table.insert(ret, {
+          key,
           function()
             vim.api.nvim_set_current_buf(buf)
           end,
-          desc = utils.get_file_name(name, '/'),
+          desc = file_name,
           icon = { cat = "file", name = name },
-        }
+        })
       end
-      return extras.add_keys(ret)
     end
   },
   { "<A-x>", "<cmd>:lua require(\"mini.bufremove\").delete(0)<cr>", desc = "Delete Current Buffer" },
