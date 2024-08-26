@@ -7,9 +7,11 @@ return {
   -- Telescope Functions
   { "<leader>f", group = "Telescope" },
   { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find File", mode = "n" },
-  { "<leader>fg", "<cmd>Telescope grep_string<cr>", desc = "Find String", mode = "n" },
+  { "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Find Word", mode = "n" },
+  { "<leader>fs", "<cmd>Telescope live_grep<cr>", desc = "Find String", mode = "n" },
   { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags", mode = "n" },
-  { "<leader>fh", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files", mode = "n" },
+  { "<leader>fo", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files", mode = "n" },
+  { "<leader>fc", "<cmd>Telescope colorscheme<cr>", desc = "Color Scheme", mode = "n" },
   { "<leader>f?", "<cmd>Telescope builtin<cr>", desc = "All Commands", mode = "n" },
 
   -- Buffer Functions
