@@ -49,6 +49,8 @@ return {
           icon = { cat = "file", name = name },
         })
       end
+
+      return ret
     end
   },
   { "<A-x>", "<cmd>:lua require(\"mini.bufremove\").delete(0)<cr>", desc = "Delete Current Buffer" },
