@@ -6,8 +6,43 @@ local servers = {
       hint = { enable = true }
     }
   },
+  tsserver = {
+    typescript = {
+      codeActionsOnSave = {
+        source = {
+          organizeImports = true,
+          fixAll = true,
+          addMissingImports = true
+        }
+      },
+      inlayHints = {
+        includeInlayEnumMemberValueHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayParameterNameHints = 'all', -- 'none' | 'literals' | 'all';
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayVariableTypeHints = true,
+      },
+    },
+  }
 }
-local capabilities = {}
+
+local init_options = {
+  tsserver = {
+    hostInfo = "neovim",
+    preferences = {
+      quotePreference = 'single',
+      includeCompletionsForModuleExports = true,
+      includeCompletionsForImportStatements = true,
+      importModuleSpecifierPreference = 'non-relative',
+      importModuleSpecifierEnding = 'minimal',
+    },
+  }
+}
+
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 return {
   ensure_installed = vim.tbl_keys(servers),
   handlers = {
@@ -17,6 +52,7 @@ return {
         on_attach = require("config.lsp-keymaps").register_lsp_keymaps,
         settings = servers[server_name],
         filetypes = (servers[server_name] or {}).filetypes,
+        init_options = init_options[server_name] or {}
       }
     end,
     ['jdtls'] = function()
