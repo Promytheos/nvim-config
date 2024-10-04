@@ -23,6 +23,7 @@ return {
       local extras = require("which-key.extras")
       local utils = require("utilities.utils")
       local numbered_index = 0
+      local keys = {}
 
       for _, buf in ipairs(extras.bufs()) do
         local name = extras.bufname(buf)
@@ -30,7 +31,7 @@ return {
         local index = 1
         local key = string.sub(file_name, index, index)
 
-        while (ret[key] ~= nil) do
+        while (keys[key] ~= nil) do
           if index >= #file_name then
             key = string(numbered_index)
             numbered_index = numbered_index + 1
@@ -48,6 +49,8 @@ return {
           desc = file_name,
           icon = { cat = "file", name = name },
         })
+
+        keys[key] = true
       end
 
       return ret
