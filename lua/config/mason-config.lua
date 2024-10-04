@@ -6,7 +6,7 @@ local servers = {
       hint = { enable = true }
     }
   },
-  tsserver = {
+  ts_ls = {
     typescript = {
       codeActionsOnSave = {
         source = {
@@ -29,7 +29,7 @@ local servers = {
 }
 
 local init_options = {
-  tsserver = {
+  ts_ls = {
     hostInfo = "neovim",
     preferences = {
       quotePreference = 'single',
