@@ -19,7 +19,7 @@ require("lazy").setup({
   { import = "plugins" },
 })
 
-vim.cmd [[colorscheme catppuccin-mocha]]
+vim.cmd [[colorscheme rosebones]]
 
 local wk = require("which-key")
 local keymaps = require("config.keymap-config")
