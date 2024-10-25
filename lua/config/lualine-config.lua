@@ -12,7 +12,9 @@ return {
       {
         "branch",
         on_click = function()
-          vim.cmd("lua Lazygit_Toggle()")
+          local terminal = require("toggleterm.terminal").Terminal
+          local lazygit = terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
+          lazygit:toggle()
         end
       }
     },
@@ -21,12 +23,7 @@ return {
         "filetype",
         icon_only = true,
         separator = "",
-        padding = { left = 1, right = 0 },
-        on_click = function()
-          if (vim.bo.filetype ~= "lspinfo" and vim.bo.filetype ~= "toggleterm") then
-            vim.cmd(":LspInfo")
-          end
-        end,
+        padding = { left = 1, right = 0 }
       },
       {
         "filename",
@@ -36,6 +33,9 @@ return {
       },
       {
         "diagnostics",
+        on_click = function ()
+          vim.cmd(":Trouble diagnostics toggle filter.buf=0")
+        end
       },
     },
     lualine_x = {
