@@ -13,6 +13,7 @@ return {
   { "<leader>fo", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files", mode = "n" },
   { "<leader>fc", "<cmd>Telescope colorscheme<cr>", desc = "Color Scheme", mode = "n" },
   { "<leader>f?", "<cmd>Telescope builtin<cr>", desc = "All Commands", mode = "n" },
+  { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find Buffer", mode = "n" },
 
   -- Buffer Functions
   {

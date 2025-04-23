@@ -15,32 +15,6 @@ return {
     end
   },
   {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "folke/neodev.nvim",
-      -- Snippet Engine & its associated nvim-cmp source
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
-
-      -- Adds LSP completion capabilities
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
-      "hrsh7th/cmp-buffer",
-      "onsails/lspkind.nvim",
-
-      -- Adds a number of user-friendly snippets
-      "rafamadriz/friendly-snippets",
-    },
-    config = function()
-      local luasnip = require("luasnip")
-      luasnip.setup {}
-
-      local cmp_config = require("config.cmp-config")
-      require("cmp").setup(cmp_config)
-    end
-  },
-  {
     -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
@@ -66,4 +40,77 @@ return {
     end
   },
   { "mfussenegger/nvim-jdtls" },
+  {
+    "mfussenegger/nvim-dap",
+    lazy = true,
+    keys = {
+      {
+        "<leader>db",
+        function() require("dap").toggle_breakpoint() end,
+        desc = "Toggle Breakpoint"
+      },
+
+      {
+        "<leader>dc",
+        function() require("dap").continue() end,
+        desc = "Continue"
+      },
+
+      {
+        "<leader>dC",
+        function() require("dap").run_to_cursor() end,
+        desc = "Run to Cursor"
+      },
+
+      {
+        "<leader>dp",
+        function() require("dap").pause() end,
+        desc = "Pause"
+      },
+
+      {
+        "<leader>ds",
+        function() require("dap").stop() end,
+        desc = "Stop"
+      },
+
+      {
+        "<leader>dT",
+        function() require("dap").terminate() end,
+        desc = "Terminate"
+      },
+
+      {
+        "<leader>da",
+        function() require("dap").attach() end,
+        desc = "Attach"
+      },
+    },
+  },
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    config = true,
+    dependencies = {
+      "mfussenegger/nvim-dap",
+    },
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    config = true,
+    keys = {
+      {
+        "<leader>du",
+        function()
+          require("dapui").toggle({})
+        end,
+        desc = "Dap UI"
+      },
+    },
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio",
+      "williamboman/mason.nvim",
+      "theHamsta/nvim-dap-virtual-text",
+    },
+  }
 }
