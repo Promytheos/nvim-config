@@ -65,7 +65,7 @@ local config = {
           {
             name = "JavaSE-17",
             path =
-            homebrew .. "openjdk@17/17.0.14/libexec/openjdk.jdk/Contents/Home/",
+                homebrew .. "openjdk@17/17.0.14/libexec/openjdk.jdk/Contents/Home/",
             default = true
           },
           {
@@ -76,7 +76,7 @@ local config = {
           {
             name = "JavaSE-20",
             path =
-            homebrew .. "/openjdk/23.0.2/libexec/openjdk.jdk/Contents/Home/"
+                homebrew .. "/openjdk/23.0.2/libexec/openjdk.jdk/Contents/Home/"
           },
         },
       },
@@ -117,6 +117,10 @@ local config = {
           "lombok",
           "gamesys",
           "gamesys.baltics.games",
+          "co.octopus",
+          "com.rogue.common",
+          "com.rogue",
+          "estonia_interactive",
           "",
           "#com",
           "#org",
@@ -125,12 +129,16 @@ local config = {
           "#lombok",
           "#gamesys",
           "#gamesys.baltics.games",
+          "#co.octopus",
+          "#com.rogue.common",
+          "#com.rogue",
+          "#estonia_interactive",
           "#",
         }
       },
       sources = {
         organizeImports = {
-          starThreshold = 9999,
+          starThreshold = 5,
           staticStarThreshold = 2,
         },
       },
