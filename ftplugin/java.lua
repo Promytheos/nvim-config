@@ -5,8 +5,7 @@ local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = vim.fn.stdpath "data" .. "/site/java/workspace-root/" .. project_name
 os.execute("mkdir " .. workspace_dir)
 local jdtls = require('jdtls')
-local homebrew = "/opt/homebrew/Cellar/"
-local jdtls_install = homebrew .. "jdtls/1.45.0/"
+local jvm = "/usr/lib/jvm/"
 
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 -- TODO: Move to config
@@ -14,7 +13,7 @@ local config = {
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
   cmd = {
-    vim.fn.expand(homebrew .. "openjdk/23.0.2/bin/java"),
+    vim.fn.expand(jvm .. "java-21-openjdk-amd64/bin/java"),
     "-Declipse.application=org.eclipse.jdt.ls.core.id1",
     "-Dosgi.bundles.defaultStartLevel=4",
     "-Declipse.product=org.eclipse.jdt.ls.core.product",
@@ -28,9 +27,9 @@ local config = {
     "--add-opens",
     "java.base/java.lang=ALL-UNNAMED",
     "-jar",
-    vim.fn.glob(jdtls_install .. "libexec/plugins/org.eclipse.equinox.launcher_*.jar"),
+    vim.fn.glob("$MASON/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"),
     "-configuration",
-    jdtls_install .. "libexec/config_mac",
+    "$MASON/packages/jdtls/config_linux",
     "-data",
     workspace_dir,
   },
@@ -65,18 +64,18 @@ local config = {
           {
             name = "JavaSE-17",
             path =
-                homebrew .. "openjdk@17/17.0.14/libexec/openjdk.jdk/Contents/Home/",
+                jvm .. "java-17-openjdk-amd64/",
             default = true
           },
           {
             name = "JavaSE-1.8",
             path =
-            "/usr/local/Cellar/openjdk@8/1.8.0-432/libexec/openjdk.jdk/Contents/Home/",
+                jvm .. "java-8-openjdk-amd64/",
           },
           {
-            name = "JavaSE-20",
+            name = "JavaSE-21",
             path =
-                homebrew .. "/openjdk/23.0.2/libexec/openjdk.jdk/Contents/Home/"
+                jvm .. "java-21-openjdk-amd64/",
           },
         },
       },
