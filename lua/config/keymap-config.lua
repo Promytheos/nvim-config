@@ -1,62 +1,22 @@
 local gs = package.loaded.gitsigns
 
 return {
-  { "-", "<cmd>Oil<cr>", desc = "Open Parent Dir in Oil" },
+  { "-", "<cmd>Oil<cr>", desc = "Open Parent Dir" },
   { "<leader><leader>", "<cmd>Alpha<cr>", desc = "Dashboard", icon = '' },
 
   -- Telescope Functions
-  { "<leader>f", group = "Telescope" },
+  { "<leader>f", group = "Find" },
   { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find File", mode = "n" },
   { "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Find Word", mode = "n" },
   { "<leader>fs", "<cmd>Telescope live_grep<cr>", desc = "Find String", mode = "n" },
-  { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags", mode = "n" },
   { "<leader>fo", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files", mode = "n" },
   { "<leader>fc", "<cmd>Telescope colorscheme<cr>", desc = "Color Scheme", mode = "n" },
-  { "<leader>f?", "<cmd>Telescope builtin<cr>", desc = "All Commands", mode = "n" },
-  { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find Buffer", mode = "n" },
+  { "<leader>f*", "<cmd>Telescope builtin<cr>", desc = "All Commands", mode = "n" },
 
-  -- Buffer Functions
-  {
-    "<leader>b",
-    group = "Buffers",
-    expand = function()
-      local ret = {}
-      local extras = require("which-key.extras")
-      local utils = require("utilities.utils")
-      local numbered_index = 0
-      local keys = {}
+  { "<leader>?", "<cmd>Telescope help_tags<cr>", desc = "Help Tags", mode = "n" },
+  { "<leader>b", "<cmd>Telescope buffers<cr>", desc = "Switch Buffer", mode = "n" },
+  { "<leader>u", "<cmd>Telescope undo<cr>", desc = "Undo Tree", mode = "n" },
 
-      for _, buf in ipairs(extras.bufs()) do
-        local name = extras.bufname(buf)
-        local file_name = utils.get_file_name(name, '/')
-        local index = 1
-        local key = string.sub(file_name, index, index)
-
-        while (keys[key] ~= nil) do
-          if index >= #file_name then
-            key = string(numbered_index)
-            numbered_index = numbered_index + 1
-            break
-          end
-          index = index + 1
-          key = string.sub(file_name, index, index)
-        end
-
-        table.insert(ret, {
-          key,
-          function()
-            vim.api.nvim_set_current_buf(buf)
-          end,
-          desc = file_name,
-          icon = { cat = "file", name = name },
-        })
-
-        keys[key] = true
-      end
-
-      return ret
-    end
-  },
   { "<A-x>", "<cmd>:lua require(\"mini.bufremove\").delete(0)<cr>", desc = "Delete Current Buffer" },
   { "<A-X>", "<cmd>1,.-bd | .+1,$bd<cr>", desc = "Delete Other Buffers" },
   { "<A-h>", "<cmd>bp<cr>", desc = "Go to Previous Buffer" },
@@ -75,15 +35,6 @@ return {
   { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Float" },
   { "<leader>th", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Horizontal" },
   { "<leader>tv", "<cmd>ToggleTerm direction=vertical<cr>", desc = "Vertical" },
-  {
-    "<leader>tl",
-    function()
-      local terminal = require("toggleterm.terminal").Terminal
-      local lazygit = terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
-      lazygit:toggle()
-    end,
-    desc = "Lazygit"
-  },
   { "<F7>",       "<cmd>ToggleTermToggleAll<cr>", desc = "Toggle Terminal",          mode = "nt" },
 
   { "<leader>g",  group = "Git" },
@@ -95,28 +46,25 @@ return {
     end,
     desc = 'Toggle Full Line Blame'
   },
+  {
+    "<leader>gl",
+    function()
+      local terminal = require("toggleterm.terminal").Terminal
+      local lazygit = terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
+      lazygit:toggle()
+    end,
+    desc = "Lazygit"
+  },
 
   -- Vim Built-In Functions
   { "<Esc>",   "<cmd>nohlsearch<cr>",       desc = "Clear Highlights" },
   { "<C-s>",   "<cmd>w<cr>",                desc = "Write" },
-  { "<C-S-s>", "<cmd>wa<cr>",               desc = "Write All" },
-  { "<C-q>q",  "<cmd>confirm qall<cr>",     desc = "Confirm Quit All" },
-  { "<C-q>w",  "<cmd>confirm q<cr>",        desc = "Confirm Quit Window" },
+  { "<C-s>a",  "<cmd>wa<cr>",               desc = "Write All" },
   { "<C-q>b",  "<cmd>confirm bd<cr>",       desc = "Confirm Quit Buffer" },
+  { "<C-q>w",  "<cmd>confirm q<cr>",        desc = "Confirm Quit Window" },
+  { "<C-q>q",   "<cmd>confirm qall<cr>",    desc = "Confirm Quit All" },
   { "<C-q>f",  "<cmd>qa!<cr>",              desc = "Force Quit" },
 
   { "|",       "<cmd>vsplit<cr>",           desc = "Vertical Split" },
-  { "\\",      "<cmd>split<cr>",            desc = "Horizontal Split" },
-
-  { "<C-A-k>", ":t .-1<cr>",                desc = "Copy Line Up" },
-  { "<C-A-k>", ":'<,'>t '<-1<cr>gv",        desc = "Copy Lines Up",      mode = 'v' },
-  { "<C-A-j>", ":t .<cr>",                  desc = "Copy Line Down" },
-  { "<C-A-j>", ":'<,'>t '><cr>gv",          desc = "Copy Lines Down",    mode = 'v' },
-
-  { "<C-S-k>", ":m .-2<cr>",                desc = "Move Line Up" },
-  { "<C-S-k>", ":'<,'>m '<-2<cr>gv",        desc = "Move Lines Up",      mode = 'v' },
-  { "<C-S-j>", ":m .+1<cr>",                desc = "Move Line Down" },
-  { "<C-S-j>", ":'<,'>m '>+1<cr>gv",        desc = "Move Lines Down",    mode = 'v' },
-
-  { "<C-i>",   "<cmd>Precognition peek<cr>" },
+  { "\\",      "<cmd>split<cr>",            desc = "Horizontal Split" }
 }

@@ -43,6 +43,10 @@ return {
   {
     "mfussenegger/nvim-dap",
     lazy = true,
+    config = function()
+      local dap_config = require("config.dap-config")
+      require("dap").configurations.java = dap_config.configurations.java;
+    end,
     keys = {
       {
         "<leader>db",

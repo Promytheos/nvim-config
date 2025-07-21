@@ -5,6 +5,7 @@ return {
     event = 'VeryLazy',
     dependencies = {
       'nvim-lua/plenary.nvim',
+      'debugloop/telescope-undo.nvim',
       {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make',
@@ -21,6 +22,7 @@ return {
       require("telescope").setup(telescopeConfig)
       pcall(require("telescope").load_extension, 'fzf')
       pcall(require("telescope").load_extension, 'ui-select')
+      pcall(require("telescope").load_extension, 'undo')
     end
   },
   {
@@ -28,6 +30,10 @@ return {
     opts = {},
     dependencies = {
       'nvim-tree/nvim-web-devicons'
-    }
+    },
+    config = function()
+      local oilConfig = require("config.oil-config")
+      require("oil").setup(oilConfig)
+    end
   }
 }
