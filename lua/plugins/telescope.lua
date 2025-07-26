@@ -18,22 +18,24 @@ return {
       }
     },
     config = function()
-      local telescopeConfig = require("config.telescope-config")
+      local telescopeConfig = {
+        pickers = {
+          colorscheme = {
+            enable_preview = true
+          }
+        },
+        extensions = {
+          ['ui-select'] = {
+            require('telescope.themes').get_dropdown(),
+          },
+          undo = {
+          }
+        }
+      }
       require("telescope").setup(telescopeConfig)
       pcall(require("telescope").load_extension, 'fzf')
       pcall(require("telescope").load_extension, 'ui-select')
       pcall(require("telescope").load_extension, 'undo')
-    end
-  },
-  {
-    'stevearc/oil.nvim',
-    opts = {},
-    dependencies = {
-      'nvim-tree/nvim-web-devicons'
-    },
-    config = function()
-      local oilConfig = require("config.oil-config")
-      require("oil").setup(oilConfig)
     end
   }
 }
