@@ -1,11 +1,6 @@
 return {
   { 'numToStr/Comment.nvim', opts = {} },
   {
-    'windwp/nvim-autopairs',
-    event = 'InsertEnter',
-    config = true
-  },
-  {
     'echasnovski/mini.nvim',
     version = '*',
     config = function()
@@ -19,12 +14,5 @@ return {
     'lukas-reineke/indent-blankline.nvim',
     main = 'ibl',
     opts = {}
-  },
-  {
-    'MeanderingProgrammer/markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    config = function()
-      require('render-markdown').setup({})
-    end,
   },
 }

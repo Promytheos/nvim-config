@@ -5,6 +5,7 @@ local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = vim.fn.stdpath "data" .. "/site/java/workspace-root/" .. project_name
 os.execute("mkdir " .. workspace_dir)
 local jdtls = require('jdtls')
+local jvm = "/usr/lib/jvm/"
 
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 -- TODO: Move to config
@@ -12,13 +13,13 @@ local config = {
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
   cmd = {
-    vim.fn.expand "$HOME/Library/Java/JavaVirtualMachines/corretto-17.0.4.1/Contents/Home/bin/java",
+    vim.fn.expand(jvm .. "java-21-openjdk-amd64/bin/java"),
     "-Declipse.application=org.eclipse.jdt.ls.core.id1",
     "-Dosgi.bundles.defaultStartLevel=4",
     "-Declipse.product=org.eclipse.jdt.ls.core.product",
     "-Dlog.protocol=true",
     "-Dlog.level=ALL",
-    "-javaagent:" .. vim.fn.expand "$HOME/.local/share/eclipse/lombok.jar",
+    "-javaagent:" .. vim.fn.expand "$MASON/share/jdtls/lombok.jar",
     "-Xms1g",
     "--add-modules=ALL-SYSTEM",
     "--add-opens",
@@ -26,9 +27,9 @@ local config = {
     "--add-opens",
     "java.base/java.lang=ALL-UNNAMED",
     "-jar",
-    vim.fn.glob("/opt/homebrew/Cellar/jdtls/1.37.0/libexec/plugins/org.eclipse.equinox.launcher_*.jar"),
+    vim.fn.glob("$MASON/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"),
     "-configuration",
-    "/opt/homebrew/Cellar/jdtls/1.37.0/libexec/config_mac",
+    vim.fn.expand "$MASON/packages/jdtls/config_linux",
     "-data",
     workspace_dir,
   },
@@ -63,26 +64,23 @@ local config = {
           {
             name = "JavaSE-17",
             path =
-                vim.fn.expand "$HOME/Library/Java/JavaVirtualMachines/corretto-17.0.4.1/Contents/Home/"
-          },
-          {
-            name = "JavaSE-18",
-            path =
-            "/Library/Java/JavaVirtualMachines/jdk-18.0.1.1.jdk/Contents/Home/"
+                jvm .. "java-17-openjdk-amd64/",
+            default = true
           },
           {
             name = "JavaSE-1.8",
             path =
-            "/usr/local/Cellar/openjdk@8/1.8.0-392/libexec/openjdk.jdk/Contents/Home/",
-            default = true
+                jvm .. "java-8-openjdk-amd64/",
+          },
+          {
+            name = "JavaSE-21",
+            path =
+                jvm .. "java-21-openjdk-amd64/",
           },
         },
       },
       format = {
         enabled = true,
-        settings = {
-          url = vim.fn.expand "$HOME/.local/share/eclipse/bgs-code-style.xml",
-        },
         tabSize = 4,
         insertSpaces = true,
         comments = {
@@ -118,6 +116,10 @@ local config = {
           "lombok",
           "gamesys",
           "gamesys.baltics.games",
+          "co.octopus",
+          "com.rogue.common",
+          "com.rogue",
+          "estonia_interactive",
           "",
           "#com",
           "#org",
@@ -126,12 +128,16 @@ local config = {
           "#lombok",
           "#gamesys",
           "#gamesys.baltics.games",
+          "#co.octopus",
+          "#com.rogue.common",
+          "#com.rogue",
+          "#estonia_interactive",
           "#",
         }
       },
       sources = {
         organizeImports = {
-          starThreshold = 9999,
+          starThreshold = 5,
           staticStarThreshold = 2,
         },
       },
