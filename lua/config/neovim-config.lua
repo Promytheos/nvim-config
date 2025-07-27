@@ -20,6 +20,7 @@ vim.o.relativenumber = true
 vim.o.expandtab = true
 vim.o.shiftwidth = 2
 vim.o.softtabstop = 2
+vim.o.shiftwidth = 2
 
 -- Case insensitive search
 vim.o.ignorecase = true
@@ -39,3 +40,5 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Highlight on search
 vim.o.hlsearch = true
+
+vim.opt.winborder = 'rounded'
