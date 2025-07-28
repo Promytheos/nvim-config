@@ -7,11 +7,13 @@ return {
   -- Telescope Functions
   { "<leader>f", group = "Find" },
   { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find File", mode = "n" },
-  { "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Find Word", mode = "n" },
-  { "<leader>fs", "<cmd>Telescope live_grep<cr>", desc = "Find String", mode = "n" },
   { "<leader>fo", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files", mode = "n" },
   { "<leader>fc", "<cmd>Telescope colorscheme<cr>", desc = "Color Scheme", mode = "n" },
   { "<leader>f*", "<cmd>Telescope builtin<cr>", desc = "All Commands", mode = "n" },
+
+  -- Search Functions
+  { "<leader>sw", "<cmd>Telescope grep_string<cr>", desc = "Find Word", mode = "n" },
+  { "<leader>ss", "<cmd>Telescope live_grep<cr>", desc = "Find String", mode = "n" },
 
   { "<leader>?", "<cmd>Telescope help_tags<cr>", desc = "Help Tags", mode = "n" },
   { "<leader>b", "<cmd>Telescope buffers<cr>", desc = "Switch Buffer", mode = "n" },
@@ -35,10 +37,10 @@ return {
   { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Float" },
   { "<leader>th", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Horizontal" },
   { "<leader>tv", "<cmd>ToggleTerm direction=vertical<cr>", desc = "Vertical" },
-  { "<F7>",       "<cmd>ToggleTermToggleAll<cr>", desc = "Toggle Terminal",          mode = "nt" },
+  { "<F7>", "<cmd>ToggleTermToggleAll<cr>", desc = "Toggle Terminal", mode = "nt" },
 
-  { "<leader>g",  group = "Git" },
-  { "<leader>gb", gs.toggle_current_line_blame,   desc = 'Toggle Current Line Blame' },
+  { "<leader>g", group = "Git" },
+  { "<leader>gb", gs.toggle_current_line_blame, desc = 'Toggle Current Line Blame' },
   {
     "<leader>gB",
     function()
@@ -57,14 +59,36 @@ return {
   },
 
   -- Vim Built-In Functions
-  { "<Esc>",   "<cmd>nohlsearch<cr>",       desc = "Clear Highlights" },
-  { "<C-s>",   "<cmd>w<cr>",                desc = "Write" },
-  { "<C-s>a",  "<cmd>wa<cr>",               desc = "Write All" },
-  { "<C-q>b",  "<cmd>confirm bd<cr>",       desc = "Confirm Quit Buffer" },
-  { "<C-q>w",  "<cmd>confirm q<cr>",        desc = "Confirm Quit Window" },
-  { "<C-q>q",   "<cmd>confirm qall<cr>",    desc = "Confirm Quit All" },
-  { "<C-q>f",  "<cmd>qa!<cr>",              desc = "Force Quit" },
+  { "<Esc>", "<cmd>nohlsearch<cr>", desc = "Clear Highlights" },
+  { "<C-s>", "<cmd>w<cr>", desc = "Write" },
+  { "<C-s>a", "<cmd>wa<cr>", desc = "Write All" },
+  { "<C-q>b", "<cmd>confirm bd<cr>", desc = "Confirm Quit Buffer" },
+  { "<C-q>w", "<cmd>confirm q<cr>", desc = "Confirm Quit Window" },
+  { "<C-q>q", "<cmd>confirm qall<cr>", desc = "Confirm Quit All" },
+  { "<C-q>f", "<cmd>qa!<cr>", desc = "Force Quit" },
 
-  { "|",       "<cmd>vsplit<cr>",           desc = "Vertical Split" },
-  { "\\",      "<cmd>split<cr>",            desc = "Horizontal Split" }
+  { "|", "<cmd>vsplit<cr>", desc = "Vertical Split" },
+  { "\\", "<cmd>split<cr>", desc = "Horizontal Split" },
+
+  -- LSP Keymaps
+  { 'K', vim.lsp.buf.hover, desc = 'Hover Documentation' },
+
+  { "<leader>l", group = "LSP", icon = '󱁼' },
+  { "<leader>lr", vim.lsp.buf.rename, desc = 'Rename', icon = '󰑕' },
+  { "<leader>la", vim.lsp.buf.code_action, desc = 'Code Action' },
+  { "<leader>lf", vim.lsp.buf.format, desc = 'Format Buffer' },
+
+  { "<leader>lh", '<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<cr>', desc = 'Toggle Inlay Hints' },
+  { "<leader>li", '<cmd>LspInfo<cr>', desc = 'LSP Info', icon = "" },
+  { "<leader>l?", vim.lsp.buf.signature_help, desc = 'Signature Help', icon = "󰋖" },
+  { "<leader>ld", "<cmd>Telescope diagnostics<cr>", desc = 'Diagnostics', icon = '' },
+  { "<leader>ls", "<cmd>Telescope lsp_document_symbols<cr>", desc = 'Document Symbols', icon = '' },
+  { "<leader>lt", "<cmd>Telescope lsp_type_definitions<cr>", desc = 'Type Definition', icon = '' },
+
+
+  { "g", group = "Go To" },
+  { "gr", "<cmd>Telescope lsp_references<cr>", desc = 'Goto References' },
+  { "gd", vim.lsp.buf.definition, desc = 'Goto Definition' },
+  { "gj", vim.diagnostic.goto_next, desc = 'Goto Next Diagnostic' },
+  { "gk", vim.diagnostic.goto_prev, desc = 'Goto Prev Diagnostic' },
 }

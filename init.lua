@@ -20,14 +20,11 @@ vim.opt.rtp:prepend(lazypath)
 
 -- PLUGINS CONFIG --
 require("lazy").setup({
+  { "folke/tokyonight.nvim", config = function() vim.cmd.colorscheme "tokyonight" end },
   { import = "plugins" },
 })
 
-vim.cmd [[colorscheme rosebones]]
-
 local wk = require("which-key")
 local keymaps = require("config.keymap-config")
-local lsp_keymaps = require("config.lsp-keymaps")
 
 wk.add(keymaps)
-wk.add(lsp_keymaps)

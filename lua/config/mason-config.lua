@@ -6,39 +6,10 @@ local servers = {
       hint = { enable = true }
     }
   },
-  ts_ls = {
-    typescript = {
-      codeActionsOnSave = {
-        source = {
-          organizeImports = true,
-          fixAll = true,
-          addMissingImports = true
-        }
-      },
-      inlayHints = {
-        includeInlayEnumMemberValueHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
-        includeInlayFunctionParameterTypeHints = true,
-        includeInlayParameterNameHints = 'all', -- 'none' | 'literals' | 'all';
-        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-        includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayVariableTypeHints = true,
-      },
-    },
-  }
 }
 
 local init_options = {
   ts_ls = {
-    hostInfo = "neovim",
-    preferences = {
-      quotePreference = 'single',
-      includeCompletionsForModuleExports = true,
-      includeCompletionsForImportStatements = true,
-      importModuleSpecifierPreference = 'non-relative',
-      importModuleSpecifierEnding = 'minimal',
-    },
-  }
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()

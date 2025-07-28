@@ -8,7 +8,7 @@ vim.o.scrolloff = 20
 vim.o.breakindent = true
 vim.o.signcolumn = 'yes'
 vim.o.cursorline = true
-vim.o.fillchars ="vert:║,horiz:═,vertright:╠,vertleft:╣,horizup:╩,horizdown:╦,verthoriz:╬,eob: "
+vim.o.fillchars = "vert:║,horiz:═,vertright:╠,vertleft:╣,horizup:╩,horizdown:╦,verthoriz:╬,eob: "
 
 vim.opt.foldmethod = 'marker'
 
